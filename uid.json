@@ -1,0 +1,50 @@
+// useEffect(() => {
+  //   const app = initializeApp(firebaseConfig);
+  //   const messaging = getMessaging(app);
+  //   const auth = getAuth();
+  //   console.log("auth", auth);
+  //   console.log("name", auth.currentUser);
+
+  //   getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY }).then((currentToken) => {
+  //     if (currentToken) {
+  //       console.log("토큰존재", currentToken)
+  //     } else {
+  //       // Show permission request UI
+  //       console.log('No registration token available. Request permission to generate one.');
+  //       // ...
+  //     }
+  //       }).catch((err) => {
+  //     console.log('An error occurred while retrieving token. ', err);
+  //     // ...
+  //   });
+
+  //   // messaging.onMessage((payload) => {
+  //   //   console.log('Message received. ', payload);
+  //   //   // 수신된 메시지를 상태에 추가
+  //   //   setMessages((prevMessages) => [...prevMessages, payload]);
+  //   // });
+
+  //   const requestPermission = async () => {
+  //     try {
+  //       await Notification.requestPermission();
+  //       console.log("Notification permission granted.")
+  //     } catch (error) {
+  //       console.log("Notification denied for notification.")
+  //     }
+  //   }
+
+  //   requestPermission();
+  // }, [])
+
+  // useEffect(() => {
+  //   const requestPermission = async () => {
+  //     try {
+  //       await Notification.requestPermission();
+  //       console.log("Notification permission granted.");
+  //     } catch (error) {
+  //       console.log("Notification denied for notification.");
+  //     }
+  //   };
+
+  //   requestPermission();
+  // }, []);

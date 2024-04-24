@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  uid      String    @unique
+  email    String
+  name     String
+  token    String[]
+
+  titles    Title[]
+}
+
+model AnonymousUser {
+  id  String    @id @default(auto()) @map("_id") @db.ObjectId
+  uid String    @unique
+  token String  
+  createdAt DateTime @default(now())
+  expireAt DateTime?
+
+  titles Title[]
+  @@unique([uid, token])
+}
+model Title {
+  id            String               @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  uid           String              
+  token         String
+
+  user          User?                @relation(fields: [uid], references: [uid])
+  anonymousUser AnonymousUser?       @relation(fields: [uid, token], references: [uid, token])
+  todos         Todo[]
+
+  @@unique([name, uid])
+}
+model Todo {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  uid         String
+  token       String
+  content     String      @unique
+
+  titleId     String      @db.ObjectId
+  title       Title       @relation(fields: [titleId], references: [id])
+  scheduleId  String      @unique
+  schedule    Schedule?   @relation(fields: [scheduleId], references: [id])
+
+  @@unique([uid, content])
+}
+
+model Schedule {
+  id            String    @id @map("_id")
+  uid           String
+  token         String
+  content       String    @unique
+  day           String?
+  time          String?
+  reiteration   Boolean?
+  
+  todo          Todo?
+}
