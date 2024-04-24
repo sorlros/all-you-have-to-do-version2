@@ -17,10 +17,11 @@ export const initializingApp = () => {
     })
       .then((currentToken) => {
         if (currentToken) {
-          console.log("Firebase Token", currentToken);
+          // console.log("Firebase Token", currentToken);
+          return;
         } else {
           // Show permission request UI
-          console.log(
+          return console.log(
             "No registration token available. Request permission to generate one.",
           );
           // ...

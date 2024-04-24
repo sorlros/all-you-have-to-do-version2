@@ -13,28 +13,21 @@ import { cn } from "@/libs/utils";
 import { toast } from "sonner";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
-import { sendFCMNotification } from "@/actions/send-fcm";
 import {
   MessagePayload,
   getMessaging,
   getToken,
   onMessage,
 } from "firebase/messaging";
-import { getApps, initializeApp } from "firebase/app";
 import Image from "next/image";
-import useSendPush from "@/app/hooks/use-send-push";
-import { firebaseConfig } from "@/config/firebase-config";
-import { initializingApp } from "@/libs/initialize-app";
-import sendNotificationToBackend from "@/app/api/send-notification";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
+
 interface NotificationData {
   data: {
-    // uid: string;
     title: string;
     body: string;
-    image: string;
-    // icon: string;
     time: string;
+    image: string;
   };
 }
 
@@ -78,13 +71,13 @@ const TimerModal = () => {
       const { content, time, day } = useTimerStore.getState();
       const { uid } = useTokenWithUidStore.getState();
 
-      const data = {
-        // uid,
-        title: "title",
-        body: content,
-        image: "/icon-192x192.png",
-        // icon: "/icon-192x192.png",
-        time: time,
+      const data: NotificationData = {
+        data: {
+          title: "title",
+          body: content,
+          image: "image",
+          time: time,
+        },
       };
 
       await createAlarm({ content, time, day, uid });
@@ -96,7 +89,7 @@ const TimerModal = () => {
       //   console.log("asdasd", message);
       // });
       // await sendFCMNotification(data);
-      await sendNotification({ data, token });
+      await sendNotification({ ...data, token });
 
       timerModal.onClose();
       toast.success("알람을 생성했습니다.");

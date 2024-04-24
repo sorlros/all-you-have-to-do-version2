@@ -22,6 +22,7 @@
     "@types/react-dom": "18.2.19",
     "autoprefixer": "10.4.17",
     "axios": "^1.6.8",
+    "bfg": "^0.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cuid": "^3.0.0",

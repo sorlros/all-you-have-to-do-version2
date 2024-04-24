@@ -1,0 +1,4 @@
+{
+  "/(main)/user/page": "app/(main)/user/page.js",
+  "/api/sendNotification/route": "app/api/sendNotification/route.js"
+}
