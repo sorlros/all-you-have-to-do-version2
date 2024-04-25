@@ -1,64 +1,34 @@
-"use server";
-
-import { db } from "@/libs/prisma/db";
+// 이 코드는 서버에서 실행됩니다.
 import admin from "firebase-admin";
-import { MessagePayload, getMessaging } from "firebase/messaging";
-// import { HttpRequest } from "firebase-admin/remote-config";
+import { initializeApp } from "firebase/app";
 
-interface NotificationData {
-  uid: string;
+export const sendFCMNotification = async ({
+  title,
+  body,
+  time,
+  image,
+  token,
+}: {
   title: string;
   body: string;
-  image: string;
-  icon: string;
   time: string;
-}
-
-const serviceAccount = require("/serviceAccountKey.json");
-let firebaseApp: admin.app.App;
-
-const initializeFirebaseApp = () => {
-  if (!admin.apps.length) {
-    firebaseApp = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    });
-  } else {
-    firebaseApp = admin.app(); // 이미 초기화된 앱을 재사용합니다.
-  }
-};
-
-export const sendFCMNotification = async (data: NotificationData) => {
+  image: string;
+  token: string;
+}) => {
   try {
-    initializeFirebaseApp();
-
-    let tokenList: Array<string> = [];
-    const user = await db.user.findUnique({
-      where: {
-        uid: data.uid,
+    const message: admin.messaging.Message = {
+      data: {
+        title: title,
+        body: body,
+        image: image,
       },
-      select: {
-        token: true,
-      },
-    });
-
-    if (user) {
-      tokenList = user.token;
-      // console.log("토큰 리스트", tokenList);
-    } else {
-      return;
-    }
-
-    const message = {
-      ...data,
-      tokens: tokenList,
+      token: token,
     };
 
-    const response = await admin.messaging().sendMulticast(message);
-    // console.log("response", response);
-
-    return response;
+    const response = await admin.messaging().send(message);
+    console.log("FCM 알림 전송 성공:", response);
   } catch (error) {
-    console.error("FCM 푸시 알림 실패");
-    console.error(error);
+    console.error("FCM 알림 전송 실패:", error);
+    throw error;
   }
 };

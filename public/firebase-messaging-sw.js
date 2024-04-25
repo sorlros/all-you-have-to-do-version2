@@ -5,14 +5,16 @@ importScripts(
   "https://www.gstatic.com/firebasejs/10.9.0/firebase-messaging-compat.js",
 );
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/firebase-messaging-sw.js')
-    .then(function(registration) {
-      console.log('Registration successful, scope is:', registration.scope);
-    }).catch(function(err) {
-      console.log('Service worker registration failed, error:', err);
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then(function (registration) {
+      console.log("Registration successful, scope is:", registration.scope);
+    })
+    .catch(function (err) {
+      console.log("Service worker registration failed, error:", err);
     });
-  }
+}
 
 const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyCJKwwt37N2WbUfvQb2-Hu-OcbNoDAmtB0",
@@ -26,28 +28,34 @@ const firebaseApp = firebase.initializeApp({
 const messaging = firebase.messaging(firebaseApp);
 // const messaging = getMessaging(firebaseApp);
 
-  if (messaging.data) {
-    console.log("데이터 전송", messaging.data)
-  } else {
-    console.log("데이터 못받음")
-  }
-
+if (messaging.data) {
+  console.log("데이터 전송", messaging.data);
+} else {
+  console.log("데이터 못받음");
+}
 
 self.addEventListener("push", function (event) {
-  console.log('[Service Worker] Push Notification received');
- 
+  console.log("[Service Worker] Push Notification received");
+
   const pushData = event.data.json();
+  console.log("pushData", pushData);
+
+  if (!pushData) {
+    console.error("Invalid push notification data");
+    return;
+  }
+
   const { title, body, image, icon, time } = pushData;
 
-    const data = event.data.json().data;  
-    const options = {
-      title: title,
-      body: body,
-      icon: icon,
-      image: image,
-      time: time
-    };
-    event.waitUntil(self.registration.showNotification(data.title, options));
+  const options = {
+    title: title || "Default Title", // Provide a default title if not provided
+    body: body || "Default Body", // Provide a default body if not provided
+    icon: icon || "/default-icon.png", // Provide a default icon if not provided
+    image: image || null,
+    time: time || null,
+  };
+
+  event.waitUntil(self.registration.showNotification(options.title, options));
 });
 
 self.addEventListener("notificationclick", function (event) {
@@ -74,14 +82,13 @@ self.addEventListener("notificationclick", function (event) {
 //   self.registration.showNotification(notificationTitle, notificationOptions);
 // });
 
-
-messaging.onBackgroundMessage(function(payload) {
+messaging.onBackgroundMessage(function (payload) {
   console.log("Received background message ", payload);
 
   const notificationTitle = payload.notification.data.title;
   const notificationOptions = {
     body: payload.notification.data.body,
-    icon: payload.notification.data.icon
+    image: payload.notification.data.image,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

@@ -1,3 +1,4 @@
+import { sendFCMNotification } from "@/actions/send-fcm";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -22,24 +23,6 @@ export async function POST(req: Request) {
       throw new Error("Invalid request body structure");
     }
 
-    // if (!req.body || typeof req.body !== "object") {
-    //   throw new Error("Request body is not an object");
-    // }
-
-    // const bodyData = await req.json();
-    // console.log("bodyData", bodyData);
-
-    // if (
-    //   !bodyData ||
-    //   typeof bodyData !== "object" ||
-    //   !("data" in bodyData) ||
-    //   !("token" in bodyData.data)
-    // ) {
-    //   throw new Error("Invalid request body structure");
-    // }
-
-    // const { data, token } = bodyData;
-
     const fcmUrl = "https://fcm.googleapis.com/fcm/send";
 
     const requestData = {
@@ -51,22 +34,18 @@ export async function POST(req: Request) {
       },
     };
 
-    const response = await fetch(fcmUrl, {
+    await fetch(fcmUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer AAAABonBoiU:APA91bGf7Vf3u4DAO6WhouMB-QD0qHrWMCD5-2qJPQglMg-PAye6HL9aU78WcIyuSRdcYUll6aGpMy5rKw1lTbJT-YXsLhLJvBjTqOWlEZD-yfuHopo_rujBpsX39J94oVNAQGor1k11",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
       },
       body: JSON.stringify(requestData),
     });
-    console.log("rrresponse", response);
 
-    if (response.ok) {
-      return NextResponse.json({ message: "success" });
-    } else {
-      return NextResponse.json({ message: "failed" });
-    }
+    await sendFCMNotification({ ...data, token });
+
+    return NextResponse.json({ message: "success" });
   } catch (error) {
     console.error("error발생", error);
     return NextResponse.json({ message: "error" });

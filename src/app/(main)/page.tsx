@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getMessaging, onMessage, getToken } from "firebase/messaging";
 import { Toaster } from "sonner";
 import Swal from "sweetalert2";
+import { initializingApp } from "@/libs/initialize-app";
 
 const Page = () => {
   useEffect(() => {
@@ -87,3 +88,4 @@ const Page = () => {
 };
 
 export default Page;
+

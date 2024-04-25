@@ -13,15 +13,8 @@ import { cn } from "@/libs/utils";
 import { toast } from "sonner";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
-import {
-  MessagePayload,
-  getMessaging,
-  getToken,
-  onMessage,
-} from "firebase/messaging";
-import Image from "next/image";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
-
+import { initializingApp } from "@/libs/initialize-app";
 interface NotificationData {
   data: {
     title: string;
@@ -32,7 +25,7 @@ interface NotificationData {
 }
 
 const TimerModal = () => {
-  // initializingApp();
+  initializingApp();
 
   const timerModal = useTimer();
   const isOpen = useTimer((state) => state.isOpen);
@@ -42,25 +35,6 @@ const TimerModal = () => {
   const { uid, token } = useTokenWithUidStore();
 
   const sendNotification = useSendNotificationToBackend();
-  const appendMessage = (payload: MessagePayload) => {
-    return (
-      <div className="flex w-[500px] h-[300px]">
-        <Image alt="logo" src="/images/logo.png" />
-        <h5>Received message: {payload.notification?.title}</h5>
-        <span>{payload.notification?.body}</span>
-      </div>
-    );
-  };
-
-  // useEffect(() => {
-  //   const messaging = getMessaging();
-
-  //   onMessage(messaging, (payload) => {
-  //     console.log("메세지 받음", payload);
-
-  //     appendMessage(payload);
-  //   });
-  // }, []);
 
   const handleSubmit = async () => {
     if (content === "" || time === "" || day === "") {

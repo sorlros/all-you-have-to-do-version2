@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { ClientOnly } from "@/components/provider/client-only";
 import TimerModal from "@/components/modal/timer-modal";
+import { initializingApp } from "@/libs/initialize-app";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 };
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  initializingApp();
   return (
     <html lang="ko">
       <Head>

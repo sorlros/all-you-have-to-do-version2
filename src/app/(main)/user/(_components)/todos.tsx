@@ -11,8 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TitleWithTodos } from "@/libs/type";
-import { MessagePayload, getMessaging, onMessage } from "firebase/messaging";
-import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LuCopyPlus } from "react-icons/lu";
@@ -93,7 +91,7 @@ const Todos = ({ pageIndex }: TodosProps) => {
 
     const value = pageData.title.todos[index];
     setContent(value);
-    
+
     setIsLoading(false);
     timerModal.onOpen();
   };

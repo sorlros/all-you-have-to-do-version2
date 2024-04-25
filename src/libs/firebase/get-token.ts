@@ -8,7 +8,7 @@ export const verifyToken = async () => {
       vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
     });
 
-    if (currentToken &&  (typeof currentToken === "string")) {
+    if (currentToken && typeof currentToken === "string") {
       // console.log("현재 토큰", currentToken);
       return currentToken;
     } else {

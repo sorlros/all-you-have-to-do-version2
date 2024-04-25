@@ -15,15 +15,18 @@ import { Auth, getAuth } from "firebase/auth";
 import Todos from "./(_components)/todos";
 import Title from "../(_components)/title";
 import { initializingApp } from "@/libs/initialize-app";
-import { verifyToken } from "@/libs/firebase/get-token";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
+import { getMessaging, onMessage } from "firebase/messaging";
+import { verifyToken } from "@/libs/firebase/get-token";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
 const Page = () => {
-  initializingApp();
-
   const { setToken } = useTokenWithUidStore();
+
+  useEffect(() => {
+    initializingApp();
+  }, []);
 
   useEffect(() => {
     const getToken = async () => {
@@ -31,31 +34,12 @@ const Page = () => {
       if (token) {
         setToken(token);
       }
-    }
+    };
     getToken();
-  }, [])
-
-  // const appendMessage = (payload: MessagePayload) => {
-  //   return (
-  //     <div className="flex w-[500px] h-[300px]">
-  //       <Image alt="logo" src="/images/logo.png" />
-  //       <h5>Received message: {payload.notification?.title}</h5>
-  //       <span>{payload.notification?.body}</span>
-  //     </div>
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   const messaging = getMessaging();
-
-  //   onMessage(messaging, (payload) => {
-  //     console.log("메세지 받음", payload);
-
-  //     appendMessage(payload);
-  //   });
-  // }, []);
+  }, []);
 
   const auth = getAuth();
+  const messaging = getMessaging();
 
   const [pageIndex, setPageIndex] = useState<number>(0);
 
@@ -72,6 +56,24 @@ const Page = () => {
   const handlePageChange = (index: number) => {
     setPageIndex(index);
   };
+
+  const appendMessage = (payload: any) => {
+    return (
+      <div className="flex w-[500px] h-[300px]">
+        <Image alt="logo" src="/images/logo.png" />
+        <h5>Received message: {payload.data?.title}</h5>
+        <span>{payload.data?.body}</span>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      console.log("메세지 받음", payload);
+
+      appendMessage(payload);
+    });
+  }, []);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {

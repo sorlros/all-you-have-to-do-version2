@@ -1,3 +1,4 @@
+
 interface NotificationData {
   data: {
     title: string;
@@ -24,7 +25,7 @@ const useSendNotificationToBackend = () => {
       if (!res.ok) {
         throw new Error("Failed to send notification to backend");
       } else {
-        console.log("res", res);
+        console.log("sendNotification api호출 성공");
       }
 
       // const responseData = await res.json();
@@ -38,6 +39,5 @@ const useSendNotificationToBackend = () => {
 };
 
 export default useSendNotificationToBackend;
-
 
 
