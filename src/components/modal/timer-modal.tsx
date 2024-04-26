@@ -25,8 +25,6 @@ interface NotificationData {
 }
 
 const TimerModal = () => {
-  initializingApp();
-
   const timerModal = useTimer();
   const isOpen = useTimer((state) => state.isOpen);
   const [isClick, setIsClick] = useState("");

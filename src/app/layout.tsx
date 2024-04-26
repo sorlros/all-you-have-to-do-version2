@@ -22,7 +22,6 @@ export const metadata: Metadata = {
 };
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  initializingApp();
   return (
     <html lang="ko">
       <Head>

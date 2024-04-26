@@ -1,6 +1,14 @@
 // 이 코드는 서버에서 실행됩니다.
+import { firebaseConfig } from "@/config/firebase-config";
 import admin from "firebase-admin";
-import { initializeApp } from "firebase/app";
+
+const serviceKey = require("../../serviceAccountKey.json");
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceKey)
+  })
+}
 
 export const sendFCMNotification = async ({
   title,

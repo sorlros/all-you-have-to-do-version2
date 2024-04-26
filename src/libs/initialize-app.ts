@@ -35,14 +35,57 @@
 //   }
 // };
 
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
+// import { firebaseConfig } from "@/config/firebase-config";
+// import { initializeApp } from 'firebase/app';
+
+// export const initializingApp = () => {
+//   try {
+//     initializeApp(firebaseConfig);
+//   } catch (error) {
+//     return console.error('Firebase initialization error')
+//   }
+// }
+
 import { firebaseConfig } from "@/config/firebase-config";
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
+import { getMessaging, getToken } from "firebase/messaging";
+
 
 export const initializingApp = () => {
-  try {
-    initializeApp(firebaseConfig);
-  } catch (error) {
-    return console.error('Firebase initialization error')
+  const alreadyCreatedAps = getApps();
+  // console.log("111", alreadyCreatedAps)
+  const App =
+    alreadyCreatedAps.length === 0
+      ? initializeApp(firebaseConfig, "app name")
+      : alreadyCreatedAps[0]; 
+
+  // console.log("2222", App)
+
+  if (
+      typeof window !== "undefined" &&
+      typeof window.navigator !== "undefined"
+    ) {
+    const messaging = getMessaging(App);
+
+    getToken(messaging, {
+      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+    })
+      .then((currentToken) => {
+        if (currentToken) {
+          // console.log("Firebase Token", currentToken);
+          return;
+        } else {
+          // Show permission request UI
+          return console.log(
+            "No registration token available. Request permission to generate one.",
+          );
+          // ...
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+        // ...
+      });
   }
 }

@@ -17,6 +17,7 @@ import { createAnonymousUser } from "@/actions/user/anonymous-user";
 import { HeaderTooltip } from "./tooltip";
 import { verifyToken } from "@/libs/firebase/get-token";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
+import { initializingApp } from "@/libs/initialize-app";
 
 interface HeaderProps {
   auth?: Auth;

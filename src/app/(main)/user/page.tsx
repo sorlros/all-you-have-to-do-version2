@@ -18,15 +18,16 @@ import { initializingApp } from "@/libs/initialize-app";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { getMessaging, onMessage } from "firebase/messaging";
 import { verifyToken } from "@/libs/firebase/get-token";
+import { getApps, initializeApp } from "firebase/app";
+import { firebaseConfig } from "@/config/firebase-config";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
-const Page = () => {
-  const { setToken } = useTokenWithUidStore();
+const Apps = getApps();
+const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
 
-  useEffect(() => {
-    initializingApp();
-  }, []);
+const Page = () => {  
+  const { setToken } = useTokenWithUidStore();
 
   useEffect(() => {
     const getToken = async () => {
@@ -69,10 +70,13 @@ const Page = () => {
 
   useEffect(() => {
     onMessage(messaging, (payload) => {
-      console.log("메세지 받음", payload);
-
-      appendMessage(payload);
-    });
+      console.log('onMessage: ', payload);
+      const title = "All you have to do 알람 서비스";
+      const options = {
+        body: payload.notification?.body
+      } 
+      // new Notification(title, options);
+    })
   }, []);
 
   useEffect(() => {
@@ -87,6 +91,18 @@ const Page = () => {
         });
     }
   }, []);
+
+  // const receivedMessage = () => {
+  //   const messaging = getMessaging();
+  //   onMessage(messaging, (payload) => {
+  //     console.log('onMessage: ', payload);
+  //     const title = "All you have to do 알람 서비스";
+  //     const options = {
+  //       body: payload.notification?.body
+  //     }
+  //     const notification = new Notification(title, options);
+  //   })
+  // }
 
   return (
     <>

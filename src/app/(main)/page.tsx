@@ -1,18 +1,17 @@
 "use client";
 
-import { getApps, initializeApp } from "firebase/app";
-import { Auth, getAuth } from "firebase/auth";
-import { firebaseConfig } from "@/config/firebase-config";
-
-import UserPage from "./user/page";
 import Title from "./(_components)/title";
 import ExamplePage from "../(example)/example-page";
 
 import { useEffect, useState } from "react";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
 import { Toaster } from "sonner";
 import Swal from "sweetalert2";
-import { initializingApp } from "@/libs/initialize-app";
+
+import { getApps, initializeApp } from "firebase/app";
+import { firebaseConfig } from "@/config/firebase-config";
+
+const Apps = getApps();
+const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
 
 const Page = () => {
   useEffect(() => {
@@ -39,28 +38,6 @@ const Page = () => {
       }
     };
     getAlert();
-
-    const firebaseApps = getApps();
-    const firebaseApp =
-      firebaseApps.length === 0
-        ? initializeApp(firebaseConfig)
-        : firebaseApps[0];
-    if (
-      typeof window !== "undefined" &&
-      typeof window.navigator !== "undefined"
-    ) {
-      const messaging = getMessaging();
-
-      getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
-      }).then((currentToken: string) => {
-        if (currentToken) {
-          console.log("기기 등록 성공");
-        } else {
-          console.log("기기 등록 실패");
-        }
-      });
-    }
   }, []);
 
   useEffect(() => {
