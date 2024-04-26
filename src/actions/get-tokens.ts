@@ -21,6 +21,6 @@ export const listAllTokens = async () => {
     return allTokens;
   } catch (error) {
     console.error("등록된 토큰을 가져오는 데 실패했습니다:", error);
-    throw error;
+    throw error;  
   }
 };

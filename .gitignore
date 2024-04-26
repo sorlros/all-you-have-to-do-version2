@@ -23,4 +23,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# next.js
+/.next/
+/out/
+
+# PWA files
+/public/sw.js
+/public/workbox-*.js
+/public/worker-*.js
+/public/sw.js.map
+/public/workbox-*.js.map
+/public/worker-*.js.map
+
+# Firebase Service Worker
+/public/firebase-messaging-sw.js
+
+# Firebase Admin SDK Key
 serviceAccountKey.json
