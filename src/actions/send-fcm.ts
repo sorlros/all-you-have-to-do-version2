@@ -2,7 +2,7 @@
 import { firebaseConfig } from "@/config/firebase-config";
 import admin from "firebase-admin";
 
-const serviceKey = require("../../serviceAccountKey.json");
+const serviceKey = require("/serviceAccountKey.json");
 
 if (!admin.apps.length) {
   admin.initializeApp({
