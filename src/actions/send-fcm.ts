@@ -12,19 +12,6 @@ if (!admin.apps.length && serviceAccountKeyPath) {
     credential: admin.credential.cert(serviceAccountKey)
   });
 }
-// const serviceKey = require("../../serviceAccountKey.json");
-
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccountKey)
-//   })
-// }
-
-// if (!admin.apps.length) {
-//   admin.initializeApp(
-//     firebaseConfig
-//   )
-// }
 
 export const sendFCMNotification = async ({
   title,
