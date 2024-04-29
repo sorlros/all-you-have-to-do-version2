@@ -7,7 +7,7 @@ export async function POST(req: Request) {
       data,
       token,
     }: {
-      data: { title: string; body: string; time: string; image: string };
+      data: { title: string; body: string; time: string; image: string, icon: string };
       token: string;
     } = await req.json();
 
@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       !data.body ||
       !data.time ||
       !data.image ||
+      !data.icon ||
       !token
     ) {
       throw new Error("Invalid request body structure");
@@ -30,7 +31,9 @@ export async function POST(req: Request) {
       notification: {
         title: data.title, // 알림 제목
         body: data.body, // 알림 내용
+        icon: data.icon,
         image: data.image,
+        time: data.time
       },
     };
 

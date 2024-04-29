@@ -21,6 +21,7 @@ interface NotificationData {
     body: string;
     time: string;
     image: string;
+    icon: string;
   };
 }
 
@@ -45,9 +46,10 @@ const TimerModal = () => {
 
       const data: NotificationData = {
         data: {
-          title: "title",
+          title: "All you have to do 알람",
           body: content,
-          image: "image",
+          image: "/images/logo.png",
+          icon:"/icon-192x192.png",
           time: time,
         },
       };

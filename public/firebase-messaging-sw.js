@@ -38,22 +38,32 @@ self.addEventListener("push", function (event) {
   console.log("[Service Worker] Push Notification received");
 
   const pushData = event.data.json();
-  console.log("pushData", pushData);
+  // console.log("PREVpushData", pushData);
+
+  // if (!pushData || !pushData.notification) {
+  //   console.log("pushData", pushData);
+  //   console.log("pushData.notification", pushData.notification)
+  //   console.log("pushData.data", pushData.data);
+  //   return console.error("Invalid push notification data");
+  // }
 
   if (!pushData) {
-    console.error("Invalid push notification data");
-    return;
+    return console.error("유효하지않은 push notification data", error)
   }
 
-  const { title, body, image, icon, time } = pushData;
+  const notificationData = pushData.notification;
+  const { title, body, image, icon, time } = notificationData;
+  // console.log("pushData", pushData);
 
   const options = {
-    title: title || "Default Title", // Provide a default title if not provided
+    title: title, // Provide a default title if not provided
     body: body || "Default Body", // Provide a default body if not provided
     icon: icon || "/default-icon.png", // Provide a default icon if not provided
     image: image || null,
     time: time || null,
   };
+
+  console.log("options", options)
   try {
     event.waitUntil(self.registration.showNotification(options.title, options));
   } catch (error) {

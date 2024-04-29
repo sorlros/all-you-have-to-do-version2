@@ -20,6 +20,7 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import { verifyToken } from "@/libs/firebase/get-token";
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
+import { receivedMessage } from './(_components)/message';
 
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
