@@ -1,14 +1,30 @@
 // 이 코드는 서버에서 실행됩니다.
-import { firebaseConfig } from "@/config/firebase-config";
 import admin from "firebase-admin";
+import fs from "fs";
 
-const serviceKey = require("../../serviceAccountKey.json");
+const serviceAccountKeyPath = process.env.SERVICE_ACCOUNT_KEY_PATH;
 
-if (!admin.apps.length) {
+
+if (!admin.apps.length && serviceAccountKeyPath) {
+  const serviceAccountKey = JSON.parse(fs.readFileSync(serviceAccountKeyPath, "utf-8"));
+
   admin.initializeApp({
-    credential: admin.credential.cert(serviceKey)
-  })
+    credential: admin.credential.cert(serviceAccountKey)
+  });
 }
+// const serviceKey = require("../../serviceAccountKey.json");
+
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccountKey)
+//   })
+// }
+
+// if (!admin.apps.length) {
+//   admin.initializeApp(
+//     firebaseConfig
+//   )
+// }
 
 export const sendFCMNotification = async ({
   title,
