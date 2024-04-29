@@ -54,8 +54,12 @@ self.addEventListener("push", function (event) {
     image: image || null,
     time: time || null,
   };
-
-  event.waitUntil(self.registration.showNotification(options.title, options));
+  try {
+    event.waitUntil(self.registration.showNotification(options.title, options));
+  } catch (error) {
+    console.log(error)
+  }
+  
 });
 
 self.addEventListener("notificationclick", function (event) {
