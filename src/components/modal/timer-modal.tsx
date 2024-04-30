@@ -22,6 +22,8 @@ interface NotificationData {
     time: string;
     image: string;
     icon: string;
+    day: string;
+    isDay: string;
   };
 }
 
@@ -29,6 +31,7 @@ const TimerModal = () => {
   const timerModal = useTimer();
   const isOpen = useTimer((state) => state.isOpen);
   const [isClick, setIsClick] = useState("");
+  const [isDay, setIsDay] = useState<string>("");
 
   const { content, setContent, time, day } = useTimerStore();
   const { uid, token } = useTokenWithUidStore();
@@ -51,6 +54,8 @@ const TimerModal = () => {
           image: "/images/logo.png",
           icon:"/icon-192x192.png",
           time: time,
+          day: day,
+          isDay: isDay
         },
       };
 
@@ -74,6 +79,7 @@ const TimerModal = () => {
 
   const handleButtonClick = (buttonType: string) => {
     setIsClick(buttonType);
+    setIsDay(buttonType)
   };
 
   return (

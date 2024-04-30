@@ -41,12 +41,6 @@ export const sendFCMNotification = async ({
       token: token,
     };
 
-    // getMessaging().send(message).then((response) => {
-    //   console.log("메세지 전송 완료: ", response)
-    // }).catch((error) => {
-    //   console.log("메세지 전송 실패: ", error)
-    // })
-
     const response = await admin.messaging().send(message);
     console.log("FCM 알림 전송 성공:", response);
   } catch (error) {

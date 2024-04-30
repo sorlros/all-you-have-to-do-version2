@@ -7,7 +7,7 @@ export async function POST(req: Request) {
       data,
       token,
     }: {
-      data: { title: string; body: string; time: string; image: string, icon: string };
+      data: { title: string; body: string; time: string; image: string, icon: string, isDay: string };
       token: string;
     } = await req.json();
 
@@ -19,6 +19,7 @@ export async function POST(req: Request) {
       !data.time ||
       !data.image ||
       !data.icon ||
+      !data.isDay ||
       !token
     ) {
       throw new Error("Invalid request body structure");
@@ -45,8 +46,8 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify(requestData),
     });
-
-    await sendFCMNotification({ ...data, token });
+    
+    setupScheduledJob(data, token);
 
     return NextResponse.json({ message: "success" });
   } catch (error) {
