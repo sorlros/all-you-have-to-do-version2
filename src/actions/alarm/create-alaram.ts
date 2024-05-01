@@ -18,7 +18,7 @@ export const createAlarm = async ({ content, time, day, uid }: AlarmProps) => {
     });
 
     if (alarm) {
-      await db.schedule.update({
+      const scheduleId = await db.schedule.update({
         where: {
           id: alarm.scheduleId,
           uid,
@@ -28,6 +28,8 @@ export const createAlarm = async ({ content, time, day, uid }: AlarmProps) => {
           time,
         },
       });
+
+      return scheduleId;
     }
   } catch (error) {
     console.error(error);

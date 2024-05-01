@@ -59,7 +59,7 @@ const TimerModal = () => {
         },
       };
 
-      await createAlarm({ content, time, day, uid });
+      const scheduleId = await createAlarm({ content, time, day, uid });
 
       // const message = await sendFCMNotification(data, uid);
       // console.log("handleMessage", message);
@@ -68,6 +68,7 @@ const TimerModal = () => {
       //   console.log("asdasd", message);
       // });
       // await sendFCMNotification(data);
+      // await reservedMessage(scheduleId);
       await sendNotification({ ...data, token });
 
       timerModal.onClose();

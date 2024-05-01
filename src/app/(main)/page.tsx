@@ -18,6 +18,16 @@ const Page = () => {
     // console.log("NOTI", Notification.permission);
     const getAlert = function () {
       if (Notification.permission === "granted") {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("/firebase-messaging-sw.js")
+            .then((registration) => {
+              console.log("Service Worker registered.");
+            })
+            .catch((error) => {
+              console.error("Service Worker registration failed:", error);
+            });
+        }
         return console.log("granted");
       } else {
         Swal.fire({
@@ -40,18 +50,18 @@ const Page = () => {
     getAlert();
   }, []);
 
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered.");
-        })
-        .catch((error) => {
-          console.error("Service Worker registration failed:", error);
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ("serviceWorker" in navigator) {
+  //     navigator.serviceWorker
+  //       .register("/firebase-messaging-sw.js")
+  //       .then((registration) => {
+  //         console.log("Service Worker registered.");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Service Worker registration failed:", error);
+  //       });
+  //   }
+  // }, []);
 
   return (
     <main className="bg-slate-100 w-full h-full">
