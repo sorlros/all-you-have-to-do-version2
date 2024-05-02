@@ -15,6 +15,8 @@ import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
 import { initializingApp } from "@/libs/initialize-app";
+import { getMessage } from "@/app/api/testcode/route";
+import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
 interface NotificationData {
   data: {
     title: string;
@@ -47,7 +49,9 @@ const TimerModal = () => {
       const { content, time, day } = useTimerStore.getState();
       const { uid } = useTokenWithUidStore.getState();
 
-      const data: NotificationData = {
+      const dayOfWeek = convertDayOfWeekToNumber(day);
+
+      const data = {
         data: {
           title: "All you have to do 알람",
           body: content,
@@ -59,17 +63,23 @@ const TimerModal = () => {
         },
       };
 
-      const scheduleId = await createAlarm({ content, time, day, uid });
+      const alarmData = {
+        data: {
+          title: "All you have to do 알람",
+          body: content,
+          image: "/images/logo.png",
+          icon:"/icon-192x192.png",
+          time: time,
+          day: dayOfWeek,
+          isDay: isDay
+        },
+      };
 
-      // const message = await sendFCMNotification(data, uid);
-      // console.log("handleMessage", message);
+      await createAlarm({ content, time, day, uid });
 
-      // onMessage(messaging, (message) => {
-      //   console.log("asdasd", message);
-      // });
-      // await sendFCMNotification(data);
-      // await reservedMessage(scheduleId);
-      await sendNotification({ ...data, token });
+      // await sendNotification({ ...data, token });
+
+      await getMessage({...alarmData, token})
 
       timerModal.onClose();
       toast.success("알람을 생성했습니다.");

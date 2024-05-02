@@ -22,12 +22,12 @@ const TimeCarousel = () => {
       )}
       onClick={() => handleClick(index)}
     >
-      {index}:00
+      {index + 1}:00
     </div>
   ));
 
   const handleClick = (index: number) => {
-    setTime(`${index}:00`);
+    setTime(`${index + 1}:00`);
     setSelectedItem(index);
   };
 

@@ -4,28 +4,20 @@ import schedule from "node-schedule";
 import { db } from "@/libs/prisma/db";
 import { cert } from "firebase-admin/app";
 
-const serviceAccountKey = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_KEY;
+const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
+const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID;
+const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL;
 
-// if (process.env.NEXT_PUBLIC_PRIVATE_KEY) {
-//   const privateKey2 = process.env.NEXT_PUBLIC_PRIVATE_KEY.replace(/\n/g, '');
-// }
 
 if (!admin.apps.length) {
-  // admin.initializeApp({
-  //   credential: admin.credential.cert(serviceAccountKey as admin.ServiceAccount)
-  // });
-
-
-  // PRIVATE KEY 타입 오류 수정할 것
   admin.initializeApp({
-    credential: cert({
-      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-      clientEmail: process.env.NEXT_PUBLIC_CLIENT_MAIL,
-      privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY
-       
-    }),
+    credential: admin.credential.cert({
+      projectId: projectId,
+      clientEmail: clientMail,
+      privateKey: serviceAccountKey
+    })
   });
-  // console.log("SDK", admin.apps);
+  console.log("SET SDK");
 }
 
 export async function POST(req: Request) {
