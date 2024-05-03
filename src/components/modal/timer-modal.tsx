@@ -15,7 +15,7 @@ import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
 import { initializingApp } from "@/libs/initialize-app";
-import { sendMessage } from "@/app/api/testcode/route";
+import { sendMessage } from "@/app/api/sendMessage/route";
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
 interface NotificationData {
   data: {
