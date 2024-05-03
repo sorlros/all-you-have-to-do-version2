@@ -1,5 +1,6 @@
 "use server";
 
+import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 interface NotificationData {
@@ -10,6 +11,7 @@ interface NotificationData {
     icon: string;
     day: number;
     isDay: string;
+    uid: string;
 }
 interface MessageParam {
   data: NotificationData;
@@ -32,31 +34,11 @@ if (!admin.apps.length) {
   console.log("SET SDK");
 }
 
-export async function getMessage(param: MessageParam) {
+export async function sendMessage(param: MessageParam) {
   try {
     const { data, token } = param;
     console.log("data, token", data, token)
 
-    // const fcmUrl = "https://fcm.googleapis.com/fcm/send";
-
-    // const requestData = {
-    //   to: token,
-    //   notification: {
-    //     title: data.title,
-    //     body: data.body,
-    //     icon: data.icon,
-    //     image: data.image,
-    //   },
-    // };
-
-    // await fetch(fcmUrl, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
-    //   },
-    //   body: JSON.stringify(requestData),
-    // });
 
     const message: admin.messaging.Message = {
       data: {
@@ -91,74 +73,56 @@ export async function getMessage(param: MessageParam) {
     const daysUntilTargetDay = (day - currentDate.getDay() + 7) % 7;
     targetDate.setDate(currentDate.getDate() + daysUntilTargetDay);
 
-    // targetDate.setHours(hour);
-    targetDate.setHours(16);
-    // targetDate.setMinutes(min);
-    targetDate.setMinutes(53);
+    targetDate.setHours(hour);
+    // targetDate.setHours(16);
+    targetDate.setMinutes(min);
+    // targetDate.setMinutes(53);
     targetDate.setSeconds(0);
 
     schedule.scheduleJob(targetDate, async function() {
-      const fcmUrl = "https://fcm.googleapis.com/fcm/send";
+      try {
+        const alarm = await db.schedule.findUnique({
+          where: {
+            uid: data.uid,
+            content: data.body
+          }
+        })
 
-      const requestData = {
-        to: token,
-        notification: {
-          title: data.title,
-          body: data.body,
-          icon: data.icon,
-          image: data.image,
-        },
-      };
+        if (alarm) {
+          const fcmUrl = "https://fcm.googleapis.com/fcm/send";
 
-      await fetch(fcmUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
-        },
-        body: JSON.stringify(requestData),
-      });
+          const requestData = {
+            to: token,
+            notification: {
+              title: data.title,
+              body: data.body,
+              icon: data.icon,
+              image: data.image,
+            },
+          };
 
-      admin.messaging().send(message).then(function (response) {
-        console.log("FCM 알림 전송 성공: ", response);
-      })
-      .catch(function (error) {
-        console.log("FCM 알림 전송 실패: ", error)
-      })
+          await fetch(fcmUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
+            },
+            body: JSON.stringify(requestData),
+          });
+
+          admin.messaging().send(message).then(function (response) {
+            console.log("FCM 알림 전송 성공: ", response);
+          })
+          .catch(function (error) {
+            console.log("FCM 알림 전송 실패: ", error)
+          })
+            } else {
+              return;
+            }
+          } catch (error) {
+            return;
+          }
     })
-
-    // const testDate = new Date();
-    // testDate.setMinutes(testDate.getMinutes() + 1);
-
-    // schedule.scheduleJob(testDate, async function() {
-    //   const fcmUrl = "https://fcm.googleapis.com/fcm/send";
-
-    //   const requestData = {
-    //     to: token,
-    //     notification: {
-    //       title: data.title,
-    //       body: data.body,
-    //       icon: data.icon,
-    //       image: data.image,
-    //     },
-    //   };
-
-    //   await fetch(fcmUrl, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
-    //     },
-    //     body: JSON.stringify(requestData),
-    //   });
-
-    //   admin.messaging().send(message).then(function (response) {
-    //     console.log("FCM 알림 전송 성공: ", response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log("FCM 알림 전송 실패: ", error)
-    //   })
-    // });
   } catch (error) {
     console.log(error)
   }

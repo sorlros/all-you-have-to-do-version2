@@ -25,7 +25,7 @@ import { receivedMessage } from './(_components)/message';
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
 const Apps = getApps();
-const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
+Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
 
 const Page = () => {  
   const { setToken } = useTokenWithUidStore();
@@ -92,18 +92,6 @@ const Page = () => {
         });
     }
   }, []);
-
-  // const receivedMessage = () => {
-  //   const messaging = getMessaging();
-  //   onMessage(messaging, (payload) => {
-  //     console.log('onMessage: ', payload);
-  //     const title = "All you have to do 알람 서비스";
-  //     const options = {
-  //       body: payload.notification?.body
-  //     }
-  //     const notification = new Notification(title, options);
-  //   })
-  // }
 
   return (
     <>

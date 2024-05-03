@@ -26,6 +26,7 @@ yarn-error.log*
 # next.js
 /.next/
 /out/
+.next
 
 # PWA files
 /public/sw.js

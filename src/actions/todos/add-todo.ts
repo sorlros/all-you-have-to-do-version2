@@ -77,6 +77,7 @@ export const addTodo = async ({
               uid,
               token,
               content: newValue,
+              sent: false
             },
           });
         }

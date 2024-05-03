@@ -26,6 +26,7 @@ export const createAlarm = async ({ content, time, day, uid }: AlarmProps) => {
         data: {
           day,
           time,
+          sent: true
         },
       });
 

@@ -21,6 +21,7 @@ model User {
   token    String[]
 
   titles    Title[]
+  schedules Schedule[]
 }
 
 model AnonymousUser {
@@ -67,6 +68,8 @@ model Schedule {
   day           String?
   time          String?
   reiteration   Boolean?
+  sent          Boolean
   
   todo          Todo?
+  user          User      @relation(fields: [uid], references: [uid])
 }

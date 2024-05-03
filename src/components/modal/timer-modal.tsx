@@ -15,7 +15,7 @@ import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
 import { initializingApp } from "@/libs/initialize-app";
-import { getMessage } from "@/app/api/testcode/route";
+import { sendMessage } from "@/app/api/testcode/route";
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
 interface NotificationData {
   data: {
@@ -38,7 +38,7 @@ const TimerModal = () => {
   const { content, setContent, time, day } = useTimerStore();
   const { uid, token } = useTokenWithUidStore();
 
-  const sendNotification = useSendNotificationToBackend();
+  // const sendNotification = useSendNotificationToBackend();
 
   const handleSubmit = async () => {
     if (content === "" || time === "" || day === "") {
@@ -71,7 +71,8 @@ const TimerModal = () => {
           icon:"/icon-192x192.png",
           time: time,
           day: dayOfWeek,
-          isDay: isDay
+          isDay: isDay,
+          uid: uid
         },
       };
 
@@ -79,7 +80,7 @@ const TimerModal = () => {
 
       // await sendNotification({ ...data, token });
 
-      await getMessage({...alarmData, token})
+      await sendMessage({...alarmData, token})
 
       timerModal.onClose();
       toast.success("알람을 생성했습니다.");

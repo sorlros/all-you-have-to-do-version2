@@ -15,6 +15,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LuCopyPlus } from "react-icons/lu";
 import { toast } from "sonner";
+import { Button } from '@/components/ui/button';
+
 interface TodosProps {
   pageIndex: number;
 }
@@ -43,7 +45,6 @@ const Todos = ({ pageIndex }: TodosProps) => {
         if (uid !== "") {
           const titleWithTodos = await getTitleWithTodos(uid, pageIndex);
           // console.log("초기 데이터", { titleWithTodos, uid, pageIndex });
-
           if (titleWithTodos) {
             setPageData(titleWithTodos);
             setIsLoading(false);
@@ -240,6 +241,9 @@ const Todos = ({ pageIndex }: TodosProps) => {
                   onBlur={(event) => onBlur(event, index)}
                 />
               </Label>
+              {/* <div className="flex justify-end items-center cursor-pointer mr-2">
+                <Button variant="outline">알람 취소</Button>
+              </div> */}
               <div
                 className="flex justify-end items-center cursor-pointer"
                 onClick={() => handleDelete(index)}
