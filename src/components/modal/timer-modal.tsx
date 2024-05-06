@@ -15,8 +15,9 @@ import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
 import { initializingApp } from "@/libs/initialize-app";
-import { sendMessage } from "@/app/api/sendMessage/route";
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
+import sendMessage from "@/app/api/sendMessage/route";
+import { Spinner } from "../spinner";
 interface NotificationData {
   data: {
     title: string;
@@ -37,8 +38,9 @@ const TimerModal = () => {
 
   const { content, setContent, time, day } = useTimerStore();
   const { uid, token } = useTokenWithUidStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // const sendNotification = useSendNotificationToBackend();
+  const sendNotification = useSendNotificationToBackend();
 
   const handleSubmit = async () => {
     if (content === "" || time === "" || day === "") {
@@ -46,6 +48,7 @@ const TimerModal = () => {
     }
 
     try {
+      setIsLoading(true);
       const { content, time, day } = useTimerStore.getState();
       const { uid } = useTokenWithUidStore.getState();
 
@@ -78,14 +81,16 @@ const TimerModal = () => {
 
       await createAlarm({ content, time, day, uid });
 
-      // await sendNotification({ ...data, token });
+      await sendNotification({ ...alarmData }, token);
 
-      await sendMessage({...alarmData, token})
+      // await sendMessage({...alarmData, token})
 
       timerModal.onClose();
       toast.success("알람을 생성했습니다.");
+      setIsLoading(false);
     } catch (error) {
       toast.error("알람 생성에 실패했습니다.");
+      setIsLoading(false);
     }
   };
 
@@ -129,7 +134,8 @@ const TimerModal = () => {
         </div>
         <TimeCarousel />
         <DayCarousel />
-        <Button
+        {isLoading ? ( <div className="w-full h-[75px] border-slate-100"><Spinner /></div> ) : 
+          <Button
           type="submit"
           variant="outline"
           size="lg"
@@ -140,6 +146,7 @@ const TimerModal = () => {
         >
           알람 저장하기
         </Button>
+        }    
       </DialogContent>
     </Dialog>
   );
