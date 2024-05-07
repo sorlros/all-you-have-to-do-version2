@@ -22,15 +22,17 @@ interface MessageParam {
 
 // const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
 // const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
-// const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
-// const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
+
+const firebaseProjectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID;
+const firebaseClientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL;
+const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_MAIL,
-      privateKey: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      projectId: firebaseProjectId,
+      clientEmail: firebaseClientMail,
+      privateKey: firebasePrivateKey,
     })
   });
   console.log("SET SDK");
