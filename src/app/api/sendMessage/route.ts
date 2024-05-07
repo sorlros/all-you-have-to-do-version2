@@ -39,13 +39,6 @@ if (!admin.apps.length) {
   console.log("SET SDK");
 }
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert(firebaseConfig as admin.ServiceAccount)
-//   });
-//   console.log("SET SDK");
-// }
-
 export async function POST(req: NextRequest) {
     try {
       const { data, token } = await req.json();
