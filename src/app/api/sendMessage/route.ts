@@ -21,18 +21,29 @@ interface MessageParam {
   token: string;
 }
 
-const firebaseProjectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID;
+const firebaseProjectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 const firebaseClientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL;
 const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
 const config = firebaseConfig();
 
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert({
+//       projectId: config.project_id,
+//       clientEmail: config.client_email,
+//       privateKey: config.private_key.replace(/\\n/g, '\n'),
+//     })
+//   });
+//   console.log("SET SDK");
+// }
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: config.project_id,
-      clientEmail: config.client_email,
-      privateKey: config.private_key.replace(/\\n/g, '\n'),
+      projectId: firebaseProjectId,
+      clientEmail: firebaseClientMail,
+      privateKey: firebasePrivateKey,
     })
   });
   console.log("SET SDK");
