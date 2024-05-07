@@ -21,7 +21,7 @@ interface MessageParam {
   token: string;
 }
 
-const serviceAccountKey2 = require("../../../../serviceAccountKey.json")
+const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
 const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
 const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
 const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
