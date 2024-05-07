@@ -25,25 +25,27 @@ interface MessageParam {
 // const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
 // const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 
-const firebaseConfig = getFirebaseConfig();
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert({
-//       projectId: process.env.PROJECT_ID,
-//       clientEmail: process.env.CLIENT_EMAIL,
-//       privateKey: process.env.PRIVATE_KEY
-//     })
-//   });
-//   console.log("SET SDK");
-// }
+// const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+// const firebaseConfig = getFirebaseConfig();
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(firebaseConfig as admin.ServiceAccount)
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_MAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    })
   });
   console.log("SET SDK");
 }
+
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(firebaseConfig as admin.ServiceAccount)
+//   });
+//   console.log("SET SDK");
+// }
 
 export async function POST(req: NextRequest) {
     try {
