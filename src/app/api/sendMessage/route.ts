@@ -21,7 +21,7 @@ interface MessageParam {
   token: string;
 }
 
-const firebaseProjectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
 const firebaseClientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL;
 const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
