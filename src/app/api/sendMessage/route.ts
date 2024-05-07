@@ -40,7 +40,7 @@ const config = firebaseConfig();
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: 'all-you-have-to-do',
+      projectId: "all-you-have-to-do" as admin.ServiceAccount["projectId"],
       clientEmail: firebaseClientMail,
       privateKey: firebasePrivateKey,
     })
