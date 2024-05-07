@@ -4,8 +4,6 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import { middleware } from "../../../../middleware";
-
 interface NotificationData {
     title: string;
     body: string;
@@ -21,23 +19,21 @@ interface MessageParam {
   token: string;
 }
 
-middleware();
-
 // const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
 // const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
 // const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
 // const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert({
-//       projectId: projectId,
-//       clientEmail: clientMail,
-//       privateKey: serviceAccountKey
-//     })
-//   });
-//   console.log("SET SDK");
-// }
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_ADMIN_PROJECT_ID,
+      clientEmail: process.env.NEXT_PUBLIC_FIREBASE_ADMIN_CLIENT_EMAIL,
+      privateKey: process.env.NEXT_PUBLIC_FIREBASE_ADMIN_PRIVATE_KEY
+    })
+  });
+  console.log("SET SDK");
+}
 
 // if (!admin.apps.length) {
 //   admin.initializeApp({
