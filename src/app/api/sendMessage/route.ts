@@ -4,7 +4,7 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import { getFirebaseConfig } from '../../../../firebase-config';
+
 interface NotificationData {
     title: string;
     body: string;
