@@ -21,17 +21,25 @@ interface MessageParam {
   token: string;
 }
 
+const serviceAccountKey2 = require("../../../../serviceAccountKey.json")
 const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
 const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
 const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert({
+//       projectId: projectId,
+//       clientEmail: clientMail,
+//       privateKey: serviceAccountKey
+//     })
+//   });
+//   console.log("SET SDK");
+// }
+
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: projectId,
-      clientEmail: clientMail,
-      privateKey: serviceAccountKey
-    })
+    credential: admin.credential.cert(serviceAccountKey2)
   });
   console.log("SET SDK");
 }
