@@ -3,8 +3,8 @@
 import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
-
 import { NextRequest, NextResponse } from "next/server";
+import { middleware } from "../../../../middleware";
 
 interface NotificationData {
     title: string;
@@ -21,10 +21,12 @@ interface MessageParam {
   token: string;
 }
 
-const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
-const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
-const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
-const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
+middleware();
+
+// const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
+// const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
+// const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
+// const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 
 // if (!admin.apps.length) {
 //   admin.initializeApp({
@@ -37,12 +39,12 @@ const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 //   console.log("SET SDK");
 // }
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountKey2)
-  });
-  console.log("SET SDK");
-}
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccountKey2)
+//   });
+//   console.log("SET SDK");
+// }
 
 export async function POST(req: NextRequest) {
     try {
