@@ -28,7 +28,7 @@ const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: "all-you-have-to-do",
+      projectId: projectId,
       clientEmail: clientMail,
       privateKey: serviceAccountKey
     })
