@@ -27,23 +27,23 @@ const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace
 
 const config = firebaseConfig();
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert({
-//       projectId: firebaseProjectId,
-//       clientEmail: firebaseClientMail,
-//       privateKey: firebasePrivateKey,
-//     })
-//   });
-//   console.log("SET SDK");
-// }
-
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(config as admin.ServiceAccount)
+    credential: admin.credential.cert({
+      projectId: config.project_id,
+      clientEmail: config.client_email,
+      privateKey: config.private_key.replace(/\\n/g, '\n'),
+    })
   });
   console.log("SET SDK");
 }
+
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(config as admin.ServiceAccount)
+//   });
+//   console.log("SET SDK");
+// }
 
 export async function POST(req: NextRequest) {
     try {
