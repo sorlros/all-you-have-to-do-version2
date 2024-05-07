@@ -25,9 +25,6 @@ interface MessageParam {
 // const projectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID as string;
 // const clientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL as string;
 
-
-// const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
