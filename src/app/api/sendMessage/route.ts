@@ -5,7 +5,6 @@ import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
 import { firebaseConfig } from "../../../../firebase-config";
-
 interface NotificationData {
     title: string;
     body: string;
@@ -21,9 +20,9 @@ interface MessageParam {
   token: string;
 }
 
-const firebaseProjectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-const firebaseClientMail = process.env.NEXT_PUBLIC_FIREBASE_CLIENT_MAIL;
-const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+const firebaseProjectId = "all-you-have-to-do";
+const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
+const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
 const config = firebaseConfig();
 
