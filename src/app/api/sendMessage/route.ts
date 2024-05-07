@@ -27,7 +27,6 @@ interface MessageParam {
 
 
 // const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-// const firebaseConfig = getFirebaseConfig();
 
 if (!admin.apps.length) {
   admin.initializeApp({
