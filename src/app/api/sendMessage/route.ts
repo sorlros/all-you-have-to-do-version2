@@ -41,8 +41,8 @@ if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
       projectId: "all-you-have-to-do" as admin.ServiceAccount["projectId"],
-      clientEmail: firebaseClientMail,
-      privateKey: firebasePrivateKey,
+      clientEmail: firebaseClientMail as admin.ServiceAccount["clientEmail"],
+      privateKey: firebasePrivateKey as admin.ServiceAccount["privateKey"],
     })
   });
   console.log("SET SDK");
