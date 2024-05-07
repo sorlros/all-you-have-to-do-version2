@@ -6,7 +6,7 @@ import TimeCarousel from "../time-carousel";
 import { Button } from "../ui/button";
 import DayCarousel from "../day-carousel";
 import useTimerStore from "@/app/hooks/use-timer-store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSun } from "react-icons/fa";
 import { MdNightlight } from "react-icons/md";
 import { cn } from "@/libs/utils";
@@ -14,9 +14,7 @@ import { toast } from "sonner";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
-import { initializingApp } from "@/libs/initialize-app";
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
-import sendMessage from "@/app/api/sendMessage/route";
 import { Spinner } from "../spinner";
 interface NotificationData {
   data: {
