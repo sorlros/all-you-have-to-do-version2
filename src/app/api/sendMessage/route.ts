@@ -23,9 +23,9 @@ interface MessageParam {
 // const serviceAccountKey2 = JSON.parse(process.env.MY_SERVICE_ACCOUNT_KEY as string);
 // const serviceAccountKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as string;
 
-const firebaseProjectId = process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID;
-const firebaseClientMail = process.env.NEXT_PUBLIC_CLIENT_MAIL;
-const firebasePrivateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+const firebaseProjectId = JSON.stringify(process.env.NEXT_PUBLIC_NEXT_PUBLIC_PROJECT_ID);
+const firebaseClientMail = JSON.stringify(process.env.NEXT_PUBLIC_CLIENT_MAIL);
+const firebasePrivateKey = JSON.stringify(process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'));
 
 if (!admin.apps.length) {
   admin.initializeApp({
