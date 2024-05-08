@@ -2,6 +2,7 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
+import { firebaseAdminConfig } from "../../../../firebase-admin";
 
 interface NotificationData {
     title: string;
@@ -30,7 +31,7 @@ const serviceAccount = JSON.parse(
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as any)
+    credential: admin.credential.cert(firebaseAdminConfig as any)
   });
   console.log("SET SDK");
 }
