@@ -2,9 +2,6 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-// import serviceAccountKey from '@/serviceAccountKey.json';
-const serviceAccountKey = require("/serviceAccountKey.json");
-
 interface NotificationData {
     title: string;
     body: string;
@@ -19,50 +16,6 @@ interface MessageParam {
   data: NotificationData;
   token: string;
 }
-
-// const firebaseAdminConfig = {
-//   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-//   clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
-//   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
-// }
-
-// const serviceAccount = JSON.parse(
-//   process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
-// );
-// const config = JSON.parse(firebaseAdminConfig as any);
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert(config)
-//   });
-//   console.log("SET SDK");
-// }
-
-// const firebaseAdminConfig = {
-//   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-//   clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
-//   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
-// }
-// const firebaseProjectId = "all-you-have-to-do";
-// const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
-// const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountKey as admin.ServiceAccount)
-  });
-  console.log("SET SDK");
-}
-
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert({
-//       projectId: "project_id": "all-you-have-to-do",
-//       clientEmail: firebaseClientMail as admin.ServiceAccount["clientEmail"],
-//       privateKey: firebasePrivateKey as admin.ServiceAccount["privateKey"],
-//     })
-//   });
-//   console.log("SET SDK");
-// }
 
 export async function POST(req: NextRequest) {
     try {
