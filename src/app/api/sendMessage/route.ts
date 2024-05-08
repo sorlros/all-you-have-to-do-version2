@@ -2,7 +2,7 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import initializeFirebaseApp from "../[...]/initialize";
+
 interface NotificationData {
     title: string;
     body: string;
@@ -20,7 +20,7 @@ interface MessageParam {
 
 
 export async function POST(req: NextRequest) {
-    initializeFirebaseApp();
+    
     try {
       const { data, token } = await req.json();
       console.log("data, token", data, token);
