@@ -28,10 +28,10 @@ interface MessageParam {
 // const serviceAccount = JSON.parse(
 //   process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
 // );
-
+const config = JSON.parse(firebaseAdminConfig as any);
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(firebaseAdminConfig as any)
+    credential: admin.credential.cert(config)
   });
   console.log("SET SDK");
 }
@@ -55,7 +55,7 @@ if (!admin.apps.length) {
 // if (!admin.apps.length) {
 //   admin.initializeApp({
 //     credential: admin.credential.cert({
-//       projectId: "all-you-have-to-do" as admin.ServiceAccount["projectId"],
+//       projectId: "project_id": "all-you-have-to-do",
 //       clientEmail: firebaseClientMail as admin.ServiceAccount["clientEmail"],
 //       privateKey: firebasePrivateKey as admin.ServiceAccount["privateKey"],
 //     })
