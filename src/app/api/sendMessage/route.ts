@@ -2,7 +2,8 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-// import { firebaseAdminConfig } from "../../../../firebase-admin";
+// import serviceAccountKey from '@/serviceAccountKey.json';
+const serviceAccountKey = require("/serviceAccountKey.json");
 
 interface NotificationData {
     title: string;
@@ -45,12 +46,12 @@ interface MessageParam {
 // const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
 // const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert(firebaseAdminConfig)
-//   });
-//   console.log("SET SDK");
-// }
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccountKey as admin.ServiceAccount)
+  });
+  console.log("SET SDK");
+}
 
 // if (!admin.apps.length) {
 //   admin.initializeApp({
