@@ -4,7 +4,7 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import { firebaseConfig } from "../../../../firebase-config";
+
 interface NotificationData {
     title: string;
     body: string;
@@ -20,37 +20,29 @@ interface MessageParam {
   token: string;
 }
 
-const firebaseProjectId = "all-you-have-to-do";
-const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
-const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-const config = firebaseConfig();
-
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert({
-//       projectId: config.project_id,
-//       clientEmail: config.client_email,
-//       privateKey: config.private_key.replace(/\\n/g, '\n'),
-//     })
-//   });
-//   console.log("SET SDK");
-// }
+const firebaseAdminConfig = {
+  privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+  clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+}
+// const firebaseProjectId = "all-you-have-to-do";
+// const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
+// const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: "all-you-have-to-do" as admin.ServiceAccount["projectId"],
-      clientEmail: firebaseClientMail as admin.ServiceAccount["clientEmail"],
-      privateKey: firebasePrivateKey as admin.ServiceAccount["privateKey"],
-    })
+    credential: admin.credential.cert(firebaseAdminConfig)
   });
   console.log("SET SDK");
 }
 
 // if (!admin.apps.length) {
 //   admin.initializeApp({
-//     credential: admin.credential.cert(config as admin.ServiceAccount)
+//     credential: admin.credential.cert({
+//       projectId: "all-you-have-to-do" as admin.ServiceAccount["projectId"],
+//       clientEmail: firebaseClientMail as admin.ServiceAccount["clientEmail"],
+//       privateKey: firebasePrivateKey as admin.ServiceAccount["privateKey"],
+//     })
 //   });
 //   console.log("SET SDK");
 // }
