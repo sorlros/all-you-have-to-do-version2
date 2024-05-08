@@ -2,7 +2,7 @@ import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import { firebaseAdminConfig } from "../../../../firebase-admin";
+// import { firebaseAdminConfig } from "../../../../firebase-admin";
 
 interface NotificationData {
     title: string;
@@ -28,13 +28,13 @@ interface MessageParam {
 // const serviceAccount = JSON.parse(
 //   process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
 // );
-const config = JSON.parse(firebaseAdminConfig as any);
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(config)
-  });
-  console.log("SET SDK");
-}
+// const config = JSON.parse(firebaseAdminConfig as any);
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(config)
+//   });
+//   console.log("SET SDK");
+// }
 
 // const firebaseAdminConfig = {
 //   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
