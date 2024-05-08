@@ -23,6 +23,23 @@ interface MessageParam {
 //   clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
 //   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 // }
+
+const serviceAccount = JSON.parse(
+  process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
+);
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+  console.log("SET SDK");
+}
+
+// const firebaseAdminConfig = {
+//   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+//   clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+//   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+// }
 // const firebaseProjectId = "all-you-have-to-do";
 // const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
 // const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
