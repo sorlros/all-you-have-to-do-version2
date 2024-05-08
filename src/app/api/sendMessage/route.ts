@@ -25,7 +25,7 @@ interface MessageParam {
 // }
 
 const serviceAccount = JSON.parse(
-  process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
+  process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
 );
 
 if (!admin.apps.length) {
