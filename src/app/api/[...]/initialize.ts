@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin';
-import mongoose from "mongoose";
 
-const connectDB = async () => {
+const initializeFirebaseApp = async () => {
   let firebase;
 
   try {
@@ -15,15 +14,9 @@ const connectDB = async () => {
       console.log("set FCM");
     }
 
-    await mongoose.connect(process.env.DATABASE_URL as string);
-
-    mongoose.set("autoCreate", true);
-
-    console.log("Mongoose connected...");
   } catch (error) {
-    console.log("Monngose 에러", error);
-    process.exit(1);
+    console.log("SDK 에러발생", error);
   }
 }
 
-export default connectDB;
+export default initializeFirebaseApp;
