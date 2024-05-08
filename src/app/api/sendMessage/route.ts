@@ -1,5 +1,3 @@
-// "use server";
-
 import { db } from "@/libs/prisma/db";
 import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
@@ -20,21 +18,21 @@ interface MessageParam {
   token: string;
 }
 
-const firebaseAdminConfig = {
-  privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-  clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
-}
+// const firebaseAdminConfig = {
+//   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+//   clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+//   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+// }
 // const firebaseProjectId = "all-you-have-to-do";
 // const firebaseClientMail = process.env.FIREBASE_CLIENT_EMAIL;
 // const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(firebaseAdminConfig)
-  });
-  console.log("SET SDK");
-}
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(firebaseAdminConfig)
+//   });
+//   console.log("SET SDK");
+// }
 
 // if (!admin.apps.length) {
 //   admin.initializeApp({

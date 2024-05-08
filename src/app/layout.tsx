@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { ClientOnly } from "@/components/provider/client-only";
 import TimerModal from "@/components/modal/timer-modal";
-import { initializingApp } from "@/libs/initialize-app";
+import * as admin from 'firebase-admin';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +20,19 @@ export const metadata: Metadata = {
     },
   ],
 };
+
+const firebaseAdminConfig = {
+  privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+  clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+}
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(firebaseAdminConfig)
+  });
+  console.log("SET SDK");
+}
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
