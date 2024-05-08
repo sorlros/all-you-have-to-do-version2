@@ -24,18 +24,16 @@ interface MessageParam {
 //   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 // }
 
-// const serviceAccount = JSON.parse(
-//   process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
-// );
+const serviceAccount = JSON.parse(
+  process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string
+);
 
-// if (!admin.apps.length) {
-//   admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount)
-//   });
-//   console.log("SET SDK");
-// }
-
-const app = admin.initializeApp();
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as any)
+  });
+  console.log("SET SDK");
+}
 
 // const firebaseAdminConfig = {
 //   privateKey: (process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
