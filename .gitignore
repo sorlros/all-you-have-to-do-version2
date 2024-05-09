@@ -38,8 +38,5 @@ yarn-error.log*
 /public/workbox-*.js.map
 /public/worker-*.js.map
 
-# Firebase Service Worker
-/public/firebase-messaging-sw.js
-
 # Firebase Admin SDK Key
 serviceAccountKey.json
