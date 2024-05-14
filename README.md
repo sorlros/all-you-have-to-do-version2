@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### All you have to do(TODO Notification 웹어플리케이션)
+---
+1. firebase 세팅
+2. firebase 서비스 워커 설정
+3. 예약 알림 설정을 위한 node-schedule 라이브러리 사용
+---
 
-## Getting Started
+## 알림 기능 웹사이트를 소재로 선택한 이유
+평소 유튜브를 통해 IT관련 소식이나 새로운 기술등을 자주 찾아보곤 하는데 과거 어느 영상에서 애플에서도 
+알림기능을 지원하는 업데이트가 나왔다는 영상을 본 기억이 남아있었습니다. 그 때 당시에는 막연하게 알림 기능을 지원한다면
+개발자로서 이런 저런 기능을 만들수있고 웹사이트만으로도 더 다양한 기능과 주제가 포함된 사이트를 만들수 있겠다 생각이 든 적이 있었습니다.
+이런 기억이 다시 떠올라 알림을 소재로 한 웹사이트를 프로젝트로 선택했고 알림을 이용해 어떤 웹사이트를 만들지 고민하다
+투두기능이 포함된 웹사이트를 만들게 되었습니다. 그 중에서도 firebase는 유저에게 메세지를 보낼수있는 기능과 로그인 기능, 토큰을 생성해주는 기능등
+편의적인 부분에서 이점이 많아보여 firebase를 선택했습니다.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+## Firebase 세팅
+프로젝트를 진행하는 과정에서 가장 많은 시간이 소요된 부분이며 많은 오류와 맞닥뜨리게 되었었는데
+우선 firebase를 사용하기위해선 initialize 과정이 필요하다는 점 그리고 firebase 사이트에서 이런 저런 설정들과
+구글 클라우드에서의 자잘한 설정등 생각보다 해야할 것과 찾아야 할것들이 많았었습니다.
+firebase의 initialize에는 개발자가 사용하는 해당 firebase의 정보들을 담아 기능을 사용하기위해 초기화과정을 진행하는데
+해당 정보들이 담긴 json파일을 읽기 위한 처리 과정들로 env파일에 환경변수로 저장하거나 파일자체를 읽어오는 방법, 인라인으로
+직접 정보를 기입하는 방법등 여러 방법들을 사용해봤었습니다.
+환경변수로 저장 시에는 \n과 같은 줄바꿈문자를 인식하지못해 저장한 환경변수를 불러왔을때 개별적인 처리가 필요한 점,
+정보들이 담겨있는 serviceAccountKey.json 파일을 불러와 사용할 때에는 이를 git에 등록 후 vercel에 배포해야하는데
+정보 유출의 위험이 있어 해당 방법은 바람직하지 않아 해당 방법을 사용하지 못했습니다.
+하지만 결국 firebase 서비스워커를 생성하는 과정에서 firebase 자체의 오류인지 자바스크립트 관련 오류인지 
+firebase SDK 초기화를 위해 firebase-messaging-sw.js 에서는 환경변수를 통해 값들을 사용할 수 없어 직접적으로 값들을 기입해주었습니다.
+---
+## node-schedule 활용
+firebase messaging 기능에는 포그라운드시와 백그라운드시에 나뉘고 전달할 알림의 형태도 커스텀이 가능한 등 이점이 많고 
+주제에 따라 혹은 내가 원할 때 유저에게 알림을 보낼수있는 다양한 기능들이 있었지만 저에게 필요했던 기능 중 하나인
+예약 알림 설정을 위해 찾다보니 여러 방법이 있었는데 그중 node-schedule을 사용하는 것이 저의 환경에 있어 가장 합리적인 방법이 었고
+웹브라우저상에서 유저가 직접 시간을 선택하면 해당 시간을 값으로 저장해 해당 요일에 알림을 보낼수 있도록 구현했습니다. 
+단, node-schedule은 스크립트가 동작하고 있을 때에만 작동하기 때문에 그렇지 않을 경우에는 cron 형식을 사용해야하는데
+실제 제품을 배포하는 과정이 아닌 점등을 이유로 저는 다른 방식을 사용했습니다.
+---
+## 알림을 보내거나 취소하는 과정
+이 과정은 api폴더의 sendMessage에서 이루어지는 과정이며 웹페이지에서 유저가 선택한 Todo와 시간들은 값들로 저장되어
+prisma를 통해 mongoDB에 저장되며 해당 값들은 node-schedule 코드가 실행될 때 다시 호출되어 만약
+유저가 해당 Todo를 지우지않았다면 저장되어있는 시간과 Todo의 내용이 알림으로 전달되며 만약 유저가 해당 값을 지웠다면
+자연스럽게 해당 값을 찾지못해 알림은 전송되지 않고 취소되어 있습니다.
+## 미구현 부분
+현재 익명 유저로그인 기능은 로그인 기능만 구현되어 있으며 해당 익명 유저의 정보는 특정 시간이 지나면 데이터가 mongoDB에서 지워지게 설정
+되어있습니다. (Todo, 알림 기능 미구현)
