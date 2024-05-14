@@ -1,4 +1,4 @@
-### All you have to do(TODO Notification 웹어플리케이션)
+### All you have to do(Todo Notification 웹어플리케이션)
 ---
 1. firebase 세팅
 2. firebase 서비스 워커 설정
