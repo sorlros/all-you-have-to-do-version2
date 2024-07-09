@@ -16,6 +16,7 @@ import { createAlarm } from "@/actions/alarm/create-alaram";
 import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-backend";
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
 import { Spinner } from "../spinner";
+import TimePicker from "../time-picker";
 interface NotificationData {
   data: {
     title: string;
@@ -130,8 +131,9 @@ const TimerModal = () => {
             PM
           </Button>
         </div>
-        <TimeCarousel />
-        <DayCarousel />
+        {/* <TimeCarousel /> */}
+        {/* <DayCarousel /> */}
+        <TimePicker />
         {isLoading ? ( <div className="w-full h-[75px] border-slate-100"><Spinner /></div> ) : 
           <Button
           type="submit"

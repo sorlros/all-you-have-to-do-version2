@@ -14,8 +14,8 @@ const useTokenWithUidStore = create<TokenWithUidStore>((set) => {
   let storedUid = "";
 
   if (typeof window !== "undefined") {
-    const storedToken = localStorage.getItem("token") || "";
-    const storedUid = localStorage.getItem("uid") || "";
+    storedToken = localStorage.getItem("token") || "";
+    storedUid = localStorage.getItem("uid") || "";
   }
 
   return {

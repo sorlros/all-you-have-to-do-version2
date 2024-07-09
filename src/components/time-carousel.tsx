@@ -15,7 +15,7 @@ const TimeCarousel = () => {
     <div
       key={index}
       className={cn(
-        "flex items-center justify-center bg-white border border-gray-300 rounded p-4 cursor-pointer",
+        "flex flex-col items-center justify-center bg-white border border-gray-300 rounded p-4 cursor-pointer",
         selectedItem === index
           ? "bg-slate-500 hover:bg-slate-200"
           : "hover:bg-slate-400 active:bg-slate-700",

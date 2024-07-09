@@ -12,6 +12,7 @@ import { firebaseConfig } from "@/config/firebase-config";
 
 const Apps = getApps();
 const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
+firebaseApp;
 
 const Page = () => {
   useEffect(() => {
@@ -49,19 +50,6 @@ const Page = () => {
     };
     getAlert();
   }, []);
-
-  // useEffect(() => {
-  //   if ("serviceWorker" in navigator) {
-  //     navigator.serviceWorker
-  //       .register("/firebase-messaging-sw.js")
-  //       .then((registration) => {
-  //         console.log("Service Worker registered.");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Service Worker registration failed:", error);
-  //       });
-  //   }
-  // }, []);
 
   return (
     <main className="bg-slate-100 w-full h-full">

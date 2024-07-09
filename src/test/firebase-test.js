@@ -1,0 +1,1 @@
+import initializingApp from "../libs/initialize-app";

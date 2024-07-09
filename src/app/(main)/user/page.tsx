@@ -21,6 +21,7 @@ import { verifyToken } from "@/libs/firebase/get-token";
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
 import { receivedMessage } from './(_components)/message';
+import { sendSubscriptionToServer, subscribeUserToPush } from "@/libs/subscribe";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
