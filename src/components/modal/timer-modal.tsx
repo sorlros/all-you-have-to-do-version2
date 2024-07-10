@@ -17,6 +17,7 @@ import useSendNotificationToBackend from "@/app/hooks/use-send-notification-to-b
 import convertDayOfWeekToNumber from "@/libs/convert-day-to-number";
 import { Spinner } from "../spinner";
 import TimePicker from "../time-picker";
+import DayPicker from "../day-picker";
 interface NotificationData {
   data: {
     title: string;
@@ -42,6 +43,7 @@ const TimerModal = () => {
   const sendNotification = useSendNotificationToBackend();
 
   const handleSubmit = async () => {
+    console.log("aSD", content, time, day)
     if (content === "" || time === "" || day === "") {
       return alert("모든 항목을 선택해야 알람이 설정됩니다.");
     }
@@ -100,7 +102,7 @@ const TimerModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={timerModal.onClose}>
-      <DialogContent className="w-full h-[70vh] p-6 overflow-hidden flex flex-col bg-white">
+      <DialogContent className="w-full h-[50vh] p-6 overflow-hidden flex flex-col bg-white">
         <div className="">
           <Button
             variant="secondary"
@@ -134,6 +136,7 @@ const TimerModal = () => {
         {/* <TimeCarousel /> */}
         {/* <DayCarousel /> */}
         <TimePicker />
+        <DayPicker />
         {isLoading ? ( <div className="w-full h-[75px] border-slate-100"><Spinner /></div> ) : 
           <Button
           type="submit"

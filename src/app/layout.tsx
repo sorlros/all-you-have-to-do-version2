@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { ClientOnly } from "@/components/provider/client-only";
 import TimerModal from "@/components/modal/timer-modal";
-import * as admin from 'firebase-admin';
 
 const inter = Inter({ subsets: ["latin"] });
 

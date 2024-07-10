@@ -14,14 +14,11 @@ import { Auth, getAuth } from "firebase/auth";
 
 import Todos from "./(_components)/todos";
 import Title from "../(_components)/title";
-import { initializingApp } from "@/libs/initialize-app";
 import useTokenWithUidStore from "@/app/hooks/use-token-with-uid-store";
 import { getMessaging, onMessage } from "firebase/messaging";
 import { verifyToken } from "@/libs/firebase/get-token";
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
-import { receivedMessage } from './(_components)/message';
-import { sendSubscriptionToServer, subscribeUserToPush } from "@/libs/subscribe";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
