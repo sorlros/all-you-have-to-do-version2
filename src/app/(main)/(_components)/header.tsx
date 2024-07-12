@@ -95,6 +95,7 @@ const Header = ({ auth }: HeaderProps) => {
   useEffect(() => {
     // onAuthStateChanged 함수를 사용하여 사용자 인증 상태의 변경을 감지합니다.
     if (auth) {
+      // console.log("auth", auth)
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           // 사용자가 로그인한 경우, user 객체를 통해 사용자 정보에 접근할 수 있습니다.
@@ -116,7 +117,7 @@ const Header = ({ auth }: HeaderProps) => {
           router.push("/");
         }
       });
-      // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 구독을 해제합니다.
+
       return () => unsubscribe();
     }
   }, [auth, router, setUid, setToken, token, uid]);

@@ -1,21 +1,11 @@
 importScripts(
-  "https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js",
+  "https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"
 );
 importScripts(
-  "https://www.gstatic.com/firebasejs/10.9.0/firebase-messaging-compat.js",
+  "https://www.gstatic.com/firebasejs/10.9.0/firebase-messaging-compat.js"
 );
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("/firebase-messaging-sw.js")
-    .then(function (registration) {
-      console.log("Registration successful, scope is:", registration.scope);
-    })
-    .catch(function (err) {
-      console.log("Service worker registration failed, error:", err);
-    });
-}
-
+// Initialize Firebase
 const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyCJKwwt37N2WbUfvQb2-Hu-OcbNoDAmtB0",
   authDomain: "all-you-have-to-do.firebaseapp.com",
@@ -26,83 +16,51 @@ const firebaseApp = firebase.initializeApp({
 });
 
 const messaging = firebase.messaging(firebaseApp);
-// const messaging = getMessaging(firebaseApp);
-
-if (messaging.data) {
-  console.log("데이터 전송", messaging.data);
-} else {
-  console.log("데이터 못받음");
-}
 
 self.addEventListener("push", function (event) {
   console.log("[Service Worker] Push Notification received");
 
-  const pushData = event.data.json();
-  // console.log("PREVpushData", pushData);
+  const pushData = event.data ? event.data.json() : {};
+  console.log("pushData", pushData);
 
-  // if (!pushData || !pushData.notification) {
-  //   console.log("pushData", pushData);
-  //   console.log("pushData.notification", pushData.notification)
-  //   console.log("pushData.data", pushData.data);
-  //   return console.error("Invalid push notification data");
-  // }
+  // Extract notification data from pushData
+  const notificationData = pushData.notification || {};
+  const dataPayload = pushData.data || {};
 
-  if (!pushData) {
-    return console.error("유효하지않은 push notification data", error)
-  }
+  // Use notificationData for default notification fields
+  const { title = "All you have to do 알람", body, image, icon } = notificationData;
 
-  const notificationData = pushData.notification;
-  const { title, body, image, icon, time } = notificationData;
-  // console.log("pushData", pushData);
+  // Use dataPayload for custom data fields
+  const customTitle = dataPayload.title || title;
+  const customBody = dataPayload.body || body;
+  const customImage = dataPayload.image || image;
+  const customIcon = dataPayload.icon || icon;
 
   const options = {
-    title: title, // Provide a default title if not provided
-    body: body || "Default Body", // Provide a default body if not provided
-    icon: icon || "/default-icon.png", // Provide a default icon if not provided
-    image: image || null,
-    time: time || null,
+    body: customBody,
+    icon: customIcon,
+    image: customImage,
   };
 
-  console.log("options", options)
-  try {
-    event.waitUntil(self.registration.showNotification(options.title, options));
-  } catch (error) {
-    console.log(error)
-  }
-  
+  console.log("options", options);
+  event.waitUntil(
+    self.registration.showNotification(customTitle, options)
+  );
 });
 
 self.addEventListener("notificationclick", function (event) {
-  // 띄운 알림창을 클릭했을 때 처리할 내용
+  // Handle notification click events
   event.preventDefault();
-  // 알림창 닫기
   event.notification.close();
 });
-
-// messaging.onBackgroundMessage((payload) => {
-//   console.log(
-//     "[firebase-messaging-sw.js] Received background message ",
-//     payload,
-//   );
-//   const data = messaging.payload;
-//   console.log(data)
-//   // Customize notification here
-//   const notificationTitle = "Background Message Title";
-//   const notificationOptions = {
-//     body: "Background Message body.",
-//     icon: "/images/logo.png",
-//   };
-
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
 
 messaging.onBackgroundMessage(function (payload) {
   console.log("Received background message ", payload);
 
-  const notificationTitle = payload.data.title;
+  const notificationTitle = payload.data?.title || "Background Message Title";
   const notificationOptions = {
-    body: payload.data.body,
-    image: payload.data.image,
+    body: payload.data?.body || "Background Message body.",
+    image: payload.data?.image || null,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

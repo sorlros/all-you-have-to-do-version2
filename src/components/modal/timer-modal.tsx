@@ -43,7 +43,7 @@ const TimerModal = () => {
   const sendNotification = useSendNotificationToBackend();
 
   const handleSubmit = async () => {
-    console.log("aSD", content, time, day)
+    // console.log("aSD", content, time, day)
     if (content === "" || time === "" || day === "") {
       return alert("모든 항목을 선택해야 알람이 설정됩니다.");
     }

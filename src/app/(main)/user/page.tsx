@@ -20,6 +20,12 @@ import { verifyToken } from "@/libs/firebase/get-token";
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
 
+interface messageProps {
+  title: string;
+  body: string;
+  image: string;
+}
+
 const poppins = Poppins({ subsets: ["latin"], weight: "500", style: "normal" });
 
 const Apps = getApps();
@@ -27,6 +33,7 @@ Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
 
 const Page = () => {  
   const { setToken } = useTokenWithUidStore();
+  const [message, setMessage] = useState<messageProps>();
 
   useEffect(() => {
     const getToken = async () => {
@@ -57,16 +64,7 @@ const Page = () => {
     setPageIndex(index);
   };
 
-  const appendMessage = (payload: any) => {
-    return (
-      <div className="flex w-[500px] h-[300px]">
-        <Image alt="logo" src="/images/logo.png" />
-        <h5>Received message: {payload.data?.title}</h5>
-        <span>{payload.data?.body}</span>
-      </div>
-    );
-  };
-
+ 
   useEffect(() => {
     onMessage(messaging, (payload) => {
       console.log('onMessage: ', payload);
@@ -74,7 +72,14 @@ const Page = () => {
       const options = {
         body: payload.notification?.body
       } 
-      // new Notification(title, options);
+
+      const newMessage = {
+        title: payload.data?.title || "All you have to do 알람 서비스",
+        body: payload.data?.body || "새로운 알림이 도착했습니다.",
+        image: payload.data?.image || "aa"
+      };
+  
+      setMessage(newMessage)
     })
   }, []);
 
@@ -133,6 +138,17 @@ const Page = () => {
             />
           </Suspense>
         </article>
+        <div>
+        {message ?  (
+          <div className="flex flex-col p-3 border-b last:border-none">
+            <h5 className="font-bold">{message.title}</h5>
+            <p>{message.body}</p>
+            {message.image && <img src={message.image} alt="notification" className="w-full h-auto" />}
+          </div>
+        ) : (
+          null
+        )}
+        </div>
       </div>
     </>
   );

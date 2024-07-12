@@ -8,26 +8,15 @@ import {
 } from "firebase/auth";
 
 export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider(); // Use 'GoogleAuthProvider' directly
+  const provider = new GoogleAuthProvider();
   const auth = getAuth();
   provider.setCustomParameters({ prompt: "select_account" });
   try {
-    return await signInWithPopup(auth, provider); // Use 'provider' directly here
+    return await signInWithPopup(auth, provider);
   } catch (error) {
     console.error("Error signing in with Google", error);
   }
 }
-
-// export async function signInWithGoogle() {
-//   const provider = new GoogleAuthProvider();
-//   const auth = getAuth();
-
-//   try {
-//     return await signInWithPopup(auth, provider);
-//   } catch (error) {
-//     console.error("Error signing in with Google", error);
-//   }
-// }
 
 export async function signOut() {
   const auth = getAuth();

@@ -1,32 +1,45 @@
-import React, { useState } from 'react';
+import useTimerStore from '@/app/hooks/use-timer-store';
+import React, { useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 
-const TimePicker: React.FC = () => {
+const TimePicker = () => {
   const currentHour = new Date().getHours() % 12 || 12; // 1부터 12까지 표시
-  const [selectedHour, setSelectedHour] = useState<number>(currentHour);
-  const [selectedMinute, setSelectedMinute] = useState<number>(new Date().getMinutes());
+  const [selectedHour, setSelectedHour] = useState<string>(String(currentHour));
+  const [selectedMinute, setSelectedMinute] = useState<string>(String(new Date().getMinutes()));
+  const { setTime } = useTimerStore();
+
+  useEffect(() => {
+    const hour = selectedHour;
+    const minute = selectedMinute.padStart(2, '0');
+    setTime(`${hour}:${minute}`);
+  }, [selectedHour, selectedMinute, setTime]);
 
   const handleHourChange = (direction: number) => {
     setSelectedHour((prevHour) => {
-      const newHour = (prevHour + direction) % 12;
-      return newHour === 0 ? 12 : newHour;
+      const hour = prevHour === '' ? 0 : parseInt(prevHour);
+      const newHour = (hour + direction) % 12;
+      return newHour <= 0 ? '12' : String(newHour === 0 ? 12 : newHour);
     });
   };
 
   const handleMinuteChange = (direction: number) => {
-    setSelectedMinute((prevMinute) => (prevMinute + direction + 60) % 60);
+    setSelectedMinute((prevMinute) => {
+      const minute = prevMinute === '' ? 0 : parseInt(prevMinute);
+      const newMinute = (minute + direction + 60) % 60;
+      return String(newMinute);
+    });
   };
 
   const handleHourInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= 1 && value <= 12) {
+    const value = e.target.value;
+    if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 1 && parseInt(value) <= 12)) {
       setSelectedHour(value);
     }
   };
 
   const handleMinuteInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= 0 && value < 60) {
+    const value = e.target.value;
+    if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 0 && parseInt(value) < 60)) {
       setSelectedMinute(value);
     }
   };
@@ -48,7 +61,7 @@ const TimePicker: React.FC = () => {
           ▲
         </button>
         <input
-          type="number"
+          type="text"
           value={selectedHour}
           onChange={handleHourInputChange}
           className="text-2xl text-center w-12 bg-white rounded-lg no-arrow"
@@ -62,7 +75,7 @@ const TimePicker: React.FC = () => {
           ▲
         </button>
         <input
-          type="number"
+          type="text"
           value={selectedMinute}
           onChange={handleMinuteInputChange}
           className="text-2xl text-center w-12 bg-white rounded-lg no-arrow"
