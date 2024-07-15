@@ -9,11 +9,11 @@ import Swal from "sweetalert2";
 
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
-import { onMessage } from "firebase/messaging";
+import { getMessaging, onMessage } from "firebase/messaging";
 
 const Apps = getApps();
-const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
-firebaseApp;
+const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0];
+const messaging = getMessaging(firebaseApp);
 
 const Page = () => {
   useEffect(() => {
