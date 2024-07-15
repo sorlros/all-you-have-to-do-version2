@@ -31,6 +31,10 @@ const Header = ({ auth }: HeaderProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { token, setToken, uid, setUid } = useTokenWithUidStore();
+  
+  useEffect(() => {
+    console.log("auth", auth)
+  }, [auth])
 
   const isAnonymous = auth?.currentUser?.isAnonymous;
 
@@ -124,7 +128,7 @@ const Header = ({ auth }: HeaderProps) => {
 
   return (
     <div className="w-full h-[50px] flex justify-end items-center gap-2 p-5 pt-10">
-      {uid !== "" ? (
+      {auth !== undefined ? (
         <>
           {isAnonymous && (
             <HeaderTooltip
