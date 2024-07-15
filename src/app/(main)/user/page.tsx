@@ -64,55 +64,6 @@ const Page = () => {
     setPageIndex(index);
   };
 
- 
-  // useEffect(() => {
-  //   onMessage(messaging, (payload) => {
-  //     console.log('onMessage: ', payload);
-  //     const title = "All you have to do 알람 서비스";
-  //     const options = {
-  //       body: payload.notification?.body
-  //     } 
-
-  //     const newMessage = {
-  //       title: payload.data?.title || "All you have to do 알람 서비스",
-  //       body: payload.data?.body || "새로운 알림이 도착했습니다.",
-  //       image: payload.data?.image || "aa"
-  //     };
-  
-  //     setMessage(newMessage)
-  //   })
-  // }, []);
-
-  // useEffect(() => {
-  //   if ("serviceWorker" in navigator) {
-  //     navigator.serviceWorker
-  //       .register("/firebase-messaging-sw.js")
-  //       .then((registration) => {
-  //         console.log("Service Worker registered.");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Service Worker registration failed:", error);
-  //       });
-
-  //       onMessage(messaging, (payload) => {
-  //         console.log('onMessage: ', payload);
-    
-  //         const title = "All you have to do 알람 서비스";
-  //     const options = {
-  //       body: payload.data?.body || "새로운 알림이 도착했습니다.",
-  //       icon: payload.data?.icon || "아이콘",
-  //       // data: payload.data,
-  //       image: payload.data?.image || "이미지"
-  //     };
-    
-  //         if (Notification.permission === "granted") {
-  //           navigator.serviceWorker.ready.then(registration => {
-  //             registration.showNotification(title, options);
-  //           });
-  //         }
-  //       });    
-  //   }
-  // }, [onMessage]);
 
   return (
     <>

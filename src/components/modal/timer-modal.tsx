@@ -25,8 +25,9 @@ interface NotificationData {
     time: string;
     image: string;
     icon: string;
-    day: string;
+    day: number;
     isDay: string;
+    uid: string;
   };
 }
 
@@ -67,7 +68,7 @@ const TimerModal = () => {
         },
       };
 
-      const alarmData = {
+      const alarmData: NotificationData = {
         data: {
           title: "All you have to do 알람",
           body: content,

@@ -20,32 +20,52 @@ const messaging = firebase.messaging(firebaseApp);
 self.addEventListener("push", function (event) {
   console.log("[Service Worker] Push Notification received");
 
-  const pushData = event.data ? event.data.json() : {};
-  console.log("pushData", pushData);
+  if (event.data) {
+    const pushData = event.data.json();
+    console.log("pushData", pushData); // 전체 데이터 구조 출력
 
-  // Extract notification data from pushData
-  const notificationData = pushData.notification || {};
-  const dataPayload = pushData.data || {};
+    const data = pushData.data || {};
+    const options = {
+      body: data.body || "Default body message.",
+      icon: data.icon || "/icon-192x192.png",
+      image: data.image || "/images/logo.png"
+    };
+
+    console.log("data", data);
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
+
+  // const pushData = event.data ? event.data.json() : {};
+  // console.log("pushData", pushData);
+
+  // // Extract notification data from pushData
+  // const notificationData = pushData.notification || {};
+  // const dataPayload = pushData.data || {};
 
   // Use notificationData for default notification fields
-  const { title = "All you have to do 알람", body, image, icon } = notificationData;
+  // const { title = "All you have to do 알람", body, image, icon } = notificationData;
 
-  // Use dataPayload for custom data fields
-  const customTitle = dataPayload.title || title;
-  const customBody = dataPayload.body || body;
-  const customImage = dataPayload.image || image;
-  const customIcon = dataPayload.icon || icon;
+  // // Use dataPayload for custom data fields
+  // const customTitle = dataPayload.title || title;
+  // const customBody = dataPayload.body || body;
+  // const customImage = dataPayload.image || image;
+  // const customIcon = dataPayload.icon || icon;
 
-  const options = {
-    body: customBody,
-    icon: customIcon,
-    image: customImage,
-  };
+  // const options = {
+  //   body: customBody,
+  //   icon: customIcon,
+  //   image: customImage,
+  // };
 
-  console.log("options", options);
-  event.waitUntil(
-    self.registration.showNotification(customTitle, options)
-  );
+  // console.log("options", options);
+  // event.waitUntil(
+  //   self.registration.showNotification(data.title, options)
+  // );
+  // };
+  } else {
+    console.log("This push event has no data.");
+  }
 });
 
 self.addEventListener("notificationclick", function (event) {
