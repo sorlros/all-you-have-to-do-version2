@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
+import { onMessage } from "firebase/messaging";
 
 const Apps = getApps();
 const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
@@ -50,6 +51,26 @@ const Page = () => {
     };
     getAlert();
   }, []);
+
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      console.log('onMessage: ', payload);
+
+      const title = "All you have to do 알람 서비스";
+      const options = {
+        body: payload.data?.body || "새로운 알림이 도착했습니다.",
+        icon: payload.data?.icon || "아이콘",
+        // data: payload.data,
+        image: payload.data?.image || "이미지"
+      };
+
+      if (Notification.permission === "granted") {
+        navigator.serviceWorker.ready.then(registration => {
+          registration.showNotification(title, options);
+        });
+      }
+    });
+  }, [onMessage])
 
   return (
     <main className="bg-slate-100 w-full h-full">
