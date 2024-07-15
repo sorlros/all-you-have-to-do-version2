@@ -11,9 +11,9 @@ import { getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
 import { getMessaging, onMessage } from "firebase/messaging";
 
-const Apps = getApps();
-const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0];
-const messaging = getMessaging(firebaseApp);
+// const Apps = getApps();
+// const firebaseApp = Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0];
+// const messaging = getMessaging(firebaseApp);
 
 const Page = () => {
   // useEffect(() => {
@@ -73,51 +73,50 @@ const Page = () => {
   // }, [onMessage])
   
 
-  useEffect(() => {
-    const initializeMessaging = async () => {
-      const { default: firebase } = await import("firebase/messaging");
+  
+    useEffect(() => {
+      const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
       const messaging = getMessaging(firebaseApp);
-
-      if (typeof window !== "undefined") {
-        // navigator 사용 코드
-        const getAlert = () => {
+  
+      const initializeMessaging = () => {
+        if (typeof window !== "undefined") {
+          // navigator가 정의된 경우에만 실행
           if (Notification.permission === "granted") {
-            // service worker 등록 등
+            // 알림 권한이 이미 허용된 경우
           } else {
             Swal.fire({
               text: "이 웹사이트는 알람기능을 사용하기 위해 사용자의 동의가 필요합니다.",
               showCancelButton: true,
             }).then(async (result) => {
               if (result.isConfirmed) {
-                let permission = await Notification.requestPermission();
+                const permission = await Notification.requestPermission();
                 console.log(permission === "granted" ? "granted" : "denied");
               }
             });
           }
-        };
-        getAlert();
+  
+          onMessage(messaging, (payload) => {
+            console.log('onMessage: ', payload);
+            
+            const title = "All you have to do 알람 서비스";
+            const options = {
+              body: payload.data?.body || "새로운 알림이 도착했습니다.",
+              icon: payload.data?.icon || "아이콘",
+              // data: payload.data,
+              image: payload.data?.image || "이미지"
+            };
 
-        onMessage(messaging, (payload) => {
-          console.log('onMessage: ', payload);
-          
-          const title = "All you have to do 알람 서비스";
-          const options = {
-            body: payload.data?.body || "새로운 알림이 도착했습니다.",
-            icon: payload.data?.icon || "아이콘",
-            image: payload.data?.image || "이미지"
-          };
-
-          if (Notification.permission === "granted") {
-            navigator.serviceWorker.ready.then(registration => {
-              registration.showNotification(title, options);
-            });
-          }
-        });
-      }
-    };
-
-    initializeMessaging();
-  }, []);
+            if (Notification.permission === "granted") {
+              navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification(title, options);
+              });
+            }
+          });
+        }
+      };
+  
+      initializeMessaging();
+    }, []);
 
   return (
     <main className="bg-slate-100 w-full h-full">
