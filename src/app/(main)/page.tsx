@@ -71,59 +71,52 @@ const Page = () => {
   //     }
   //   });
   // }, [onMessage])
+  
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const initializeMessaging = async () => {
+      const { default: firebase } = await import("firebase/messaging");
       const messaging = getMessaging(firebaseApp);
 
-      const getAlert = function () {
-        if (Notification.permission === "granted") {
-          if ("serviceWorker" in navigator) {
-            navigator.serviceWorker
-              .register("/firebase-messaging-sw.js")
-              .then((registration) => {
-                console.log("Service Worker registered.");
-              })
-              .catch((error) => {
-                console.error("Service Worker registration failed:", error);
-              });
-          }
-          return console.log("granted");
-        } else {
-          Swal.fire({
-            text: "이 웹사이트는 알람기능을 사용하기 위해 사용자의 동의가 필요합니다.",
-            showCancelButton: true,
-            allowOutsideClick: false,
-          }).then(async function (result) {
-            if (result.isConfirmed) {
-              let permission = await Notification.requestPermission();
-              if (permission === "granted") {
-                console.log("granted");
-              } else {
-                console.log("denied");
+      if (typeof window !== "undefined") {
+        // navigator 사용 코드
+        const getAlert = () => {
+          if (Notification.permission === "granted") {
+            // service worker 등록 등
+          } else {
+            Swal.fire({
+              text: "이 웹사이트는 알람기능을 사용하기 위해 사용자의 동의가 필요합니다.",
+              showCancelButton: true,
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                let permission = await Notification.requestPermission();
+                console.log(permission === "granted" ? "granted" : "denied");
               }
-            } else return;
-          });
-        }
-      };
-      getAlert();
-
-      onMessage(messaging, (payload) => {
-        console.log('onMessage: ', payload);
-
-        const title = "All you have to do 알람 서비스";
-        const options = {
-          body: payload.data?.body || "새로운 알림이 도착했습니다.",
-          icon: payload.data?.icon || "아이콘",
-          image: payload.data?.image || "이미지"
+            });
+          }
         };
+        getAlert();
 
-        if (Notification.permission === "granted") {
-          navigator.serviceWorker.ready.then(registration => {
-            registration.showNotification(title, options);
-          });
-        }
-      });
-    }
+        onMessage(messaging, (payload) => {
+          console.log('onMessage: ', payload);
+          
+          const title = "All you have to do 알람 서비스";
+          const options = {
+            body: payload.data?.body || "새로운 알림이 도착했습니다.",
+            icon: payload.data?.icon || "아이콘",
+            image: payload.data?.image || "이미지"
+          };
+
+          if (Notification.permission === "granted") {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.showNotification(title, options);
+            });
+          }
+        });
+      }
+    };
+
+    initializeMessaging();
   }, []);
 
   return (
