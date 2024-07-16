@@ -56,24 +56,12 @@ const TimerModal = () => {
 
       const dayOfWeek = convertDayOfWeekToNumber(day);
 
-      const data = {
-        data: {
-          title: "All you have to do 알람",
-          body: content,
-          image: "/images/logo.png",
-          icon:"/icon-192x192.png",
-          time: time,
-          day: day,
-          isDay: isDay
-        },
-      };
-
       const alarmData: NotificationData = {
         data: {
           title: "All you have to do 알람",
           body: content,
-          image: "/images/logo.png",
-          icon:"/icon-192x192.png",
+          image: "https://all-you-have-to-do-version2.vercel.app/images/logo.png",
+          icon: "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
           time: time,
           day: dayOfWeek,
           isDay: isDay,
