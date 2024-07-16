@@ -21,24 +21,17 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Clone the response to modify headers.
+        if (!response.ok) {
+          console.error('Network response was not ok', response.status);
+          return new Response('Error fetching the resource', { status: response.status });
+        }
+        // Clone the response to modify headers if needed
         let clonedResponse = response.clone();
-
-        // Create a new response with CORS headers.
-        let modifiedHeaders = new Headers(clonedResponse.headers);
-        modifiedHeaders.set('Access-Control-Allow-Origin', '*');
-        modifiedHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        modifiedHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-        return new Response(clonedResponse.body, {
-          status: clonedResponse.status,
-          statusText: clonedResponse.statusText,
-          headers: modifiedHeaders
-        });
+        return clonedResponse; // Return the cloned response
       })
       .catch(error => {
         console.error('Fetch error:', error);
-        throw error;
+        return new Response('Network error occurred', { status: 500 });
       })
   );
 });
