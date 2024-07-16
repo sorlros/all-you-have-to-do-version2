@@ -43,9 +43,9 @@ const Page = () => {
             const title = "All you have to do 알람 서비스";
             const options = {
               body: payload.data?.body || "새로운 알림이 도착했습니다.",
-              icon: payload.data?.icon || "/icon-192x192.png",
+              icon: payload.data?.icon || "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
               // data: payload.data,
-              image: payload.data?.image || "/images/logo.png"
+              image: payload.data?.image || "https://all-you-have-to-do-version2.vercel.app/images/logo.png"
             };
   
             if (Notification.permission === "granted") {

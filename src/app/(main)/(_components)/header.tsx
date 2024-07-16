@@ -80,6 +80,7 @@ const Header = ({ auth }: HeaderProps) => {
         const token = await verifyToken();
 
         if (token) {
+          console.log("token", token)
           setToken(token);
           await createUser(userInfo, token);
           // router.push("/user");
