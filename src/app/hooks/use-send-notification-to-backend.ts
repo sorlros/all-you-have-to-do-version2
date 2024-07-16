@@ -15,7 +15,7 @@ const useSendNotificationToBackend = () => {
   const sendNotification = async ({ data }: NotificationData, token: string) => {
     try {
       // const data = { title, body, time, image };
-      const basePath = "https://all-you-have-to-do-version2.vercel.app"; // 배포 환경 테스트
+      const basePath = "https://all-you-have-to-do-version2.vercel.app/user"; // 배포 환경 테스트
       // const basePath = "http://localhost:3000"; // 로컬 환경 테스트
       const res = await fetch(`${basePath}/api/sendMessage`, {
         method: "POST",
