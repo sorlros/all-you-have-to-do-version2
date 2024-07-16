@@ -27,8 +27,8 @@ self.addEventListener("push", function (event) {
     const data = pushData.data || {};
     const options = {
       body: data.body || "Default body message.",
-      icon: data.icon || "/icon-192x192.png",
-      image: data.image || "/images/logo.png"
+      icon: data.icon || "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
+      image: data.image || "https://all-you-have-to-do-version2.vercel.app/images/logo.png"
     };
 
     console.log("data", data);
@@ -36,33 +36,6 @@ self.addEventListener("push", function (event) {
       self.registration.showNotification(data.title, options)
     );
 
-  // const pushData = event.data ? event.data.json() : {};
-  // console.log("pushData", pushData);
-
-  // // Extract notification data from pushData
-  // const notificationData = pushData.notification || {};
-  // const dataPayload = pushData.data || {};
-
-  // Use notificationData for default notification fields
-  // const { title = "All you have to do 알람", body, image, icon } = notificationData;
-
-  // // Use dataPayload for custom data fields
-  // const customTitle = dataPayload.title || title;
-  // const customBody = dataPayload.body || body;
-  // const customImage = dataPayload.image || image;
-  // const customIcon = dataPayload.icon || icon;
-
-  // const options = {
-  //   body: customBody,
-  //   icon: customIcon,
-  //   image: customImage,
-  // };
-
-  // console.log("options", options);
-  // event.waitUntil(
-  //   self.registration.showNotification(data.title, options)
-  // );
-  // };
   } else {
     console.log("This push event has no data.");
   }
@@ -80,7 +53,8 @@ messaging.onBackgroundMessage(function (payload) {
   const notificationTitle = payload.data?.title || "Background Message Title";
   const notificationOptions = {
     body: payload.data?.body || "Background Message body.",
-    image: payload.data?.image || null,
+    image: payload.data?.image || "https://all-you-have-to-do-version2.vercel.app/images/logo.png",
+    icon: payload.data?.icon || "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
