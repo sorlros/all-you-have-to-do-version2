@@ -17,35 +17,35 @@ const firebaseApp = firebase.initializeApp({
 
 const messaging = firebase.messaging(firebaseApp);
 
-self.addEventListener('fetch', function(event) {
-  if (event.request.url.includes('apis.google.com')) {
-    return; // Google API 요청은 가로채지 않음
-  }
+// self.addEventListener('fetch', function(event) {
+//   if (event.request.url.includes('apis.google.com')) {
+//     return; // Google API 요청은 가로채지 않음
+//   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (!response.ok) {
-          console.error('Network response was not ok', response.status);
-          return new Response('Error fetching the resource', { status: response.status });
-        }
+//   event.respondWith(
+//     fetch(event.request)
+//       .then(response => {
+//         if (!response.ok) {
+//           console.error('Network response was not ok', response.status);
+//           return new Response('Error fetching the resource', { status: response.status });
+//         }
         
-        // CORS 헤더 추가
-        let modifiedHeaders = new Headers(response.headers);
-        modifiedHeaders.set('Access-Control-Allow-Origin', '*');
+//         // CORS 헤더 추가
+//         let modifiedHeaders = new Headers(response.headers);
+//         modifiedHeaders.set('Access-Control-Allow-Origin', '*');
         
-        return new Response(response.body, {
-          status: response.status,
-          statusText: response.statusText,
-          headers: modifiedHeaders
-        });
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-        return new Response('Network error occurred', { status: 500 });
-      })
-  );
-});
+//         return new Response(response.body, {
+//           status: response.status,
+//           statusText: response.statusText,
+//           headers: modifiedHeaders
+//         });
+//       })
+//       .catch(error => {
+//         console.error('Fetch error:', error);
+//         return new Response('Network error occurred', { status: 500 });
+//       })
+//   );
+// });
 
 
 self.addEventListener("push", function (event) {
