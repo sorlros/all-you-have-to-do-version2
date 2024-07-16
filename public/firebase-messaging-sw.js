@@ -17,6 +17,32 @@ const firebaseApp = firebase.initializeApp({
 
 const messaging = firebase.messaging(firebaseApp);
 
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Clone the response to modify headers.
+        let clonedResponse = response.clone();
+
+        // Create a new response with CORS headers.
+        let modifiedHeaders = new Headers(clonedResponse.headers);
+        modifiedHeaders.set('Access-Control-Allow-Origin', '*');
+        modifiedHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        modifiedHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        return new Response(clonedResponse.body, {
+          status: clonedResponse.status,
+          statusText: clonedResponse.statusText,
+          headers: modifiedHeaders
+        });
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        throw error;
+      })
+  );
+});
+
 self.addEventListener("push", function (event) {
   console.log("[Service Worker] Push Notification received");
 
