@@ -1,27 +1,22 @@
 import { db } from "@/libs/prisma/db";
-// import * as admin from "firebase-admin";
-admin
+import * as admin from "firebase-admin";
 import schedule from 'node-schedule';
 import { NextRequest, NextResponse } from "next/server";
-import initializeFirebaseApp from "../[...]/initialize";
-import admin from '../../../libs/firebase';
+// import initializeFirebaseApp from "../[...]/initialize";
+// import admin from '../../../libs/firebase';
 
-interface NotificationData {
-    title: string;
-    body: string;
-    time: string;
-    image: string;
-    icon: string;
-    day: number;
-    isDay: string;
-    uid: string;
-}
-interface MessageParam {
-  data: NotificationData;
-  token: string;
-}
 
-initializeFirebaseApp();
+const privateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        privateKey: privateKey,
+        clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+      }),
+    });
+  }
 
 
 export async function POST(req: NextRequest) {
