@@ -21,13 +21,26 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     fetch(event.request)
       .then(response => {
+        // 응답이 성공적인 경우
         if (!response.ok) {
           console.error('Network response was not ok', response.status);
           return new Response('Error fetching the resource', { status: response.status });
         }
-        // Clone the response to modify headers if needed
+
+        // 응답을 클론하여 헤더를 수정
         let clonedResponse = response.clone();
-        return clonedResponse; // Return the cloned response
+        let modifiedHeaders = new Headers(clonedResponse.headers);
+
+        // CORS 헤더 추가
+        modifiedHeaders.set('Access-Control-Allow-Origin', '*');
+        modifiedHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        modifiedHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        return new Response(clonedResponse.body, {
+          status: clonedResponse.status,
+          statusText: clonedResponse.statusText,
+          headers: modifiedHeaders
+        });
       })
       .catch(error => {
         console.error('Fetch error:', error);
@@ -35,6 +48,7 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
+
 
 self.addEventListener("push", function (event) {
   console.log("[Service Worker] Push Notification received");
