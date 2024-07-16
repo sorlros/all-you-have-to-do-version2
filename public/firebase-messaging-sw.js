@@ -18,27 +18,25 @@ const firebaseApp = firebase.initializeApp({
 const messaging = firebase.messaging(firebaseApp);
 
 self.addEventListener('fetch', function(event) {
+  if (event.request.url.includes('apis.google.com')) {
+    return; // Google API 요청은 가로채지 않음
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // 응답이 성공적인 경우
         if (!response.ok) {
           console.error('Network response was not ok', response.status);
           return new Response('Error fetching the resource', { status: response.status });
         }
-
-        // 응답을 클론하여 헤더를 수정
-        let clonedResponse = response.clone();
-        let modifiedHeaders = new Headers(clonedResponse.headers);
-
+        
         // CORS 헤더 추가
+        let modifiedHeaders = new Headers(response.headers);
         modifiedHeaders.set('Access-Control-Allow-Origin', '*');
-        modifiedHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        modifiedHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-        return new Response(clonedResponse.body, {
-          status: clonedResponse.status,
-          statusText: clonedResponse.statusText,
+        
+        return new Response(response.body, {
+          status: response.status,
+          statusText: response.statusText,
           headers: modifiedHeaders
         });
       })
