@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
           const requestData = {
             to: token,
-            notification: {
+            data: {
               title: data.title,
               body: data.body,
               icon: data.icon,
