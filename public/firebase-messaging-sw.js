@@ -27,8 +27,8 @@ self.addEventListener("push", function (event) {
     const data = pushData.data || {};
     const options = {
       body: data.body || "Default body message.",
-      icon: data.icon || "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
-      image: data.image || "https://all-you-have-to-do-version2.vercel.app/images/logo.png"
+      icon: "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
+      image: "https://all-you-have-to-do-version2.vercel.app/images/logo.png"
     };
 
     console.log("data", data);
@@ -53,8 +53,8 @@ messaging.onBackgroundMessage(function (payload) {
   const notificationTitle = payload.data?.title || "Background Message Title";
   const notificationOptions = {
     body: payload.data?.body || "Background Message body.",
-    image: payload.data?.image || "https://all-you-have-to-do-version2.vercel.app/images/logo.png",
-    icon: payload.data?.icon || "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
+    image: "https://all-you-have-to-do-version2.vercel.app/images/logo.png",
+    icon: "https://all-you-have-to-do-version2.vercel.app/icon-192x192.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
