@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_FCM_SERVER_KEY}`,
+              Authorization: `key=${process.env.FCM_SERVER_KEY}`,
             },
             body: JSON.stringify(requestData),
           });
@@ -105,4 +105,8 @@ export async function POST(req: NextRequest) {
     } catch (error) {
       return NextResponse.json({ error: "Failed"});
     }
+}
+
+export async function GET(req: NextRequest) {
+  return NextResponse.json({ message: "GET method is not allowed for this endpoint. Use POST instead." });
 }
