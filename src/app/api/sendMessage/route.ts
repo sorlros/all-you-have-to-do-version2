@@ -6,14 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 // import admin from '../../../libs/firebase';
 
 
-const privateKey = process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
   if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert({
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        projectId: process.env.FIREBASE_PROJECT_ID,
         privateKey: privateKey,
-        clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       }),
     });
   }
