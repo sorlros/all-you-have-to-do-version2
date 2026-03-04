@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# All You Have To Do
 
-## Getting Started
+A modern, responsive web application designed to help you seamlessly manage your daily schedules and to-do lists. Built with Next.js and Firebase, it features intuitive task categorization, real-time updates, and push notifications to keep you on track.
 
-First, run the development server:
+Read this in other languages: [한국어(Korean)](README.ko.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 🌟 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **To-Do Management**: Organize your tasks by categories such as Kitchen, Workout, Goals, Expenses, and Others.
+- **User Authentication**: Secure your data with Google Login or use Anonymous Login for quick access (anonymous data expires in a week).
+- **Push Notifications**: Receive timely alerts for your tasks using Firebase Cloud Messaging (FCM).
+- **Timer Modal**: Built-in timer functionality.
+- **PWA Ready**: Installable as a Progressive Web App onto your device for a native-like experience.
+- **Responsive UI**: Carefully crafted user interface that looks great on both desktop and mobile devices.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Tech Stack
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+### Core
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Library**: [React 18](https://reactjs.org/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Styling & UI
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [React Icons](https://react-icons.github.io/react-icons/), [Lucide React](https://lucide.dev/)
+- **Toast & Alerts**: [Sonner](https://sonner.emilkowal.ski/), [SweetAlert2](https://sweetalert2.github.io/)
 
-## Learn More
+### State Management & Utilities
+- **State Management**: [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- **Utilities**: `clsx`, `tailwind-merge`
 
-To learn more about Next.js, take a look at the following resources:
+### Backend & Database & Auth
+- **Database ORM**: [Prisma](https://www.prisma.io/)
+- **Database**: MongoDB (via Prisma / Mongoose)
+- **Authentication & Backend Services**: [Firebase](https://firebase.google.com/) (Auth, Cloud Messaging, Edge Config)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Installation & Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sorlros/all-you-have-to-do-version2.git
+   cd all-you-have-to-do-version2
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Set up environment variables:**
+   Create a `.env` file in the root directory and configure your Firebase and Database credentials.
+   ```env
+   DATABASE_URL="your-mongodb-connection-string"
+   NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key"
+   # Add other Firebase config variables...
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. **Initialize Prisma:**
+   ```bash
+   npx prisma generate
+   ```
+
+5. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📁 Project Structure
+
+- `/src/app`: Next.js App Router root, containing main pages, layout, and routing logic.
+  - `/(main)`: Main dashboard and user pages.
+- `/src/components`: Reusable UI components (buttons, modals, spinners).
+- `/src/libs`: Utility functions, Firebase configuration, etc.
+- `/src/actions`: Server actions and database operations.
+- `/prisma`: Prisma schema and database configuration.
