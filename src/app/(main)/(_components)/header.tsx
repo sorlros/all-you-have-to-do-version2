@@ -89,8 +89,7 @@ const Header = ({ auth }: HeaderProps) => {
           return console.log("token이 존재하지 않습니다.");      
         }
       }
-      router.push("/user");
-      setIsLoading(false);
+      router.push(`/user?uid=${uid}`);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -128,9 +127,9 @@ const Header = ({ auth }: HeaderProps) => {
   }, [auth, router, setUid, setToken, token, uid]);
 
   return (
-    <div className="w-full h-[50px] flex justify-end items-center gap-2 p-5 pt-10">
+    <div className="w-full h-[50px] flex justify-end items-center gap-4 p-5 pt-10">
       {auth !== undefined ? (
-        <>
+        <div className="flex items-center gap-4">
           {isAnonymous && (
             <HeaderTooltip
               icon={PiWarningFill}
@@ -139,51 +138,56 @@ const Header = ({ auth }: HeaderProps) => {
             />
           )}
           {userPhoto && (
-            <>
-              <div className="flex rounded-lg w-[45px] h-[45px] relative">
+            <div className="flex items-center gap-2">
+              <div className="flex justify-center items-center rounded-full w-[35px] h-[35px] relative overflow-hidden bg-white shadow-sm">
                 <Image
                   src={userPhoto}
                   alt="User"
-                  className="w-full h-auto object-cover absolute rounded-lg"
+                  className="object-cover"
+                  fill
                   sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
-                  width={25}
-                  height={25}
                 />
               </div>
-              <h1>{userId} 님</h1>
-            </>
+              <h1 className="text-sm font-medium text-slate-700">{userId} 님</h1>
+            </div>
           )}
-          <Button onClick={() => signOut()}>로그아웃</Button>
-        </>
+          <Button variant="outline" size="sm" onClick={() => signOut()}>로그아웃</Button>
+        </div>
       ) : (
-        <>
-          <div className="flex inset-0">
-            <FcGoogle size={35} />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <div className="flex justify-center items-center bg-white rounded-full w-[34px] h-[34px] shadow-sm">
+              <FcGoogle size={22} />
+            </div>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => handleSignInWithGoogle()}
+              className="text-slate-600 font-medium"
             >
               Google로 로그인
             </Button>
           </div>
-          <div className="flex inset-0">
-            <Image
-              src="/images/anonymous.png"
-              alt="anonymous"
-              width={35}
-              height={30}
-              style={{
-                width: "auto",
-                height: "auto",
-              }}
-              // sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
-            />
-            <Button variant="ghost" size="sm" onClick={() => handleAnonymous()}>
+          <div className="flex items-center gap-1">
+            <div className="flex justify-center items-center bg-white rounded-full w-[34px] h-[34px] shadow-sm">
+              <Image
+                src="/images/anonymous.png"
+                alt="anonymous"
+                width={20}
+                height={20}
+                className="object-contain"
+              />
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => handleAnonymous()}
+              className="text-slate-600 font-medium"
+            >
               익명으로 로그인
             </Button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

@@ -32,7 +32,7 @@ const Apps = getApps();
 Apps.length == 0 ? initializeApp(firebaseConfig) : Apps[0]
 
 const Page = () => {  
-  const { setToken } = useTokenWithUidStore();
+  const { uid, setToken } = useTokenWithUidStore();
   // const [message, setMessage] = useState<messageProps>();
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const Page = () => {
 
 
   return (
-    <>
+    <div className="flex flex-col max-w-6xl h-full mx-auto">
       <Title auth={auth} />
       <div
         className={cn(
@@ -107,19 +107,8 @@ const Page = () => {
             />
           </Suspense>
         </article>
-        {/* <div>
-        {message ?  (
-          <div className="flex flex-col p-3 border-b last:border-none">
-            <h5 className="font-bold">{message.title}</h5>
-            <p>{message.body}</p>
-            {message.image && <img src={message.image} alt="notification" className="w-full h-auto" />}
-          </div>
-        ) : (
-          null
-        )}
-        </div> */}
       </div>
-    </>
+    </div>
   );
 };
 

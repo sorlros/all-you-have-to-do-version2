@@ -102,11 +102,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <meta name="theme-color" content="#ffffff"></meta>
       </Head>
       <body className={inter.className}>
-        <ClientOnly>
           <Toaster />
           <TimerModal />
           <main className="bg-slate-100 w-full h-full">{children}</main>
-        </ClientOnly>
       </body>
     </html>
   );
